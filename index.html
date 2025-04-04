@@ -27,6 +27,8 @@
             --box-shadow: rgba(0, 0, 0, 0.1);
             --selector-bg: #ecf0f1;
             --selector-border: #bdc3c7;
+            --theme-toggle-bg: #bdc3c7;
+            --theme-toggle-hover: #95a5a6;
         }
 
         /* Dark Mode Variables */
@@ -51,6 +53,8 @@
             --box-shadow: rgba(0, 0, 0, 0.3);
             --selector-bg: #2c3e50;
             --selector-border: #34495e;
+            --theme-toggle-bg: #34495e;
+            --theme-toggle-hover: #2c3e50;
         }
 
         /* Global Styles */
@@ -58,7 +62,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 20px auto; /* Added top/bottom margin */
             padding: 20px;
             background-color: var(--background-color);
             color: var(--text-color);
@@ -77,7 +81,25 @@
             padding: 25px;
             box-shadow: 0 4px 8px var(--box-shadow);
             transition: background-color 0.3s, box-shadow 0.3s;
-            position: relative;
+            position: relative; /* Needed for absolute positioning of toggle */
+        }
+
+        .theme-toggle-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: var(--theme-toggle-bg);
+            color: var(--text-color);
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .theme-toggle-button:hover {
+            background-color: var(--theme-toggle-hover);
         }
 
         .question {
@@ -110,7 +132,29 @@
         input[type="radio"] {
             margin-right: 10px;
             cursor: pointer;
+            vertical-align: middle; /* Align radio button with text */
         }
+
+        /* Style for selected answers during review */
+        label.selected {
+             font-weight: bold;
+        }
+        label.correct {
+            background-color: var(--correct-color);
+            color: white; /* Ensure text is readable */
+        }
+        label.incorrect {
+             background-color: var(--incorrect-color);
+             color: white; /* Ensure text is readable */
+             text-decoration: line-through; /* Indicate wrong choice */
+        }
+         label.correct.selected { /* User selected the correct answer */
+              /* Keep correct styling, maybe add a checkmark or stronger indicator */
+         }
+         label.incorrect.selected { /* User selected an incorrect answer */
+              /* Keep incorrect styling */
+         }
+
 
         button {
             background-color: var(--button-bg);
@@ -120,8 +164,8 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            display: block;
-            margin: 30px auto;
+            display: block; /* Changed from inline-block if it was */
+            margin: 20px auto; /* Center button */
             transition: background-color 0.3s;
         }
 
@@ -132,46 +176,37 @@
         .button-group {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 10px; /* Space between buttons */
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
             margin: 20px 0;
         }
 
         .button-group button {
-            margin: 0;
+             margin: 0; /* Remove default auto margins if any */
         }
 
-        .question-count-selector {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .question-count-btn {
-            padding: 8px 16px;
-            background-color: var(--option-bg);
-            border: 1px solid var(--selector-border);
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .question-count-btn.active {
-            background-color: var(--button-bg);
-            color: white;
-        }
-
-        .question-count-btn:hover {
-            background-color: var(--option-hover);
-        }
-
-        .question-count-btn.active:hover {
-            background-color: var(--button-hover);
-        }
+        /* Specific button styles */
+         #submit-btn { /* Keep original button color */
+              background-color: var(--button-bg);
+         }
+         #submit-btn:hover {
+             background-color: var(--button-hover);
+         }
+         #reset-btn {
+             background-color: var(--reset-btn);
+         }
+         #reset-btn:hover {
+             background-color: var(--reset-hover);
+         }
+         #study-guide-btn {
+             background-color: var(--study-guide-btn);
+         }
+         #study-guide-btn:hover {
+             background-color: var(--study-guide-hover);
+         }
 
         .results {
-            display: none;
+            display: none; /* Hidden initially */
             background-color: var(--results-bg);
             padding: 20px;
             border-radius: 8px;
@@ -190,1063 +225,843 @@
             font-weight: bold;
             margin-bottom: 15px;
         }
+         .result-count .correct-count {
+             color: var(--correct-color);
+         }
+         .result-count .total-count {
+             color: var(--text-color); /* Or use heading color */
+         }
+
 
         .review-container {
-            margin-top: 20px;
-            text-align: left;
+             margin-top: 20px;
+             text-align: left;
         }
 
         .review-question {
-            background-color: var(--question-bg);
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+             background-color: var(--question-bg);
+             padding: 15px;
+             margin-bottom: 15px;
+             border-radius: 5px;
+             transition: background-color 0.3s;
+             border-left: 4px solid; /* Keep border consistency */
+        }
+         .review-question.correct-answered {
+             border-left-color: var(--correct-color);
+         }
+         .review-question.incorrect-answered {
+             border-left-color: var(--incorrect-color);
+         }
+
+         .review-question p {
+             margin-bottom: 10px; /* Space below question text */
+             font-weight: bold;
+         }
+
+         .review-options label {
+             pointer-events: none; /* Disable clicking on options in review */
+             margin-bottom: 5px; /* Tighter spacing in review */
+         }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
         }
 
-        .correct {
-            border-left: 4px solid var(--correct-color);
-        }
-
-        .incorrect {
-            border-left: 4px solid var(--incorrect-color);
-        }
-
-        .correct-answer {
-            color: var(--correct-color);
-            font-weight: bold;
-        }
-
-        .wrong-answer {
-            color: var(--incorrect-color);
-            text-decoration: line-through;
-        }
-
-        .reset-btn {
-            background-color: var(--reset-btn);
-        }
-
-        .reset-btn:hover {
-            background-color: var(--reset-hover);
-        }
-
-        .study-guide-btn {
-            background-color: var(--study-guide-btn);
-        }
-
-        .study-guide-btn:hover {
-            background-color: var(--study-guide-hover);
-        }
-
-        .study-guide {
-            display: none;
-            background-color: var(--question-bg);
+        .modal-content {
+            background-color: var(--container-bg);
+            margin: 10% auto; /* 10% from the top and centered */
             padding: 20px;
+            border: 1px solid var(--selector-border);
+            width: 80%; /* Could be more or less, depending on screen size */
+            max-width: 600px; /* Maximum width */
             border-radius: 8px;
-            margin-top: 20px;
-            transition: background-color 0.3s;
-        }
-
-        .study-guide h2 {
-            color: var(--heading-color);
-            margin-bottom: 15px;
-        }
-        
-        .study-section {
-            margin-bottom: 20px;
-        }
-        
-        .study-section h3 {
-            color: var(--question-border);
-            border-bottom: 1px solid var(--option-bg);
-            padding-bottom: 5px;
-        }
-
-        .manual-container {
-            display: none;
-            margin-top: 20px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px var(--box-shadow);
-        }
-
-        .manual-container iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-        }
-
-        /* Theme Toggle Button */
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            padding: 8px 12px;
-            background-color: var(--option-bg);
-            border-radius: 30px;
-            transition: background-color 0.3s;
-            z-index: 10;
-        }
-
-        .theme-toggle:hover {
-            background-color: var(--option-hover);
-        }
-
-        .theme-toggle-track {
-            width: 40px;
-            height: 20px;
-            background-color: #aaa;
-            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--box-shadow);
             position: relative;
-            margin-left: 8px;
-            transition: background-color 0.3s;
         }
 
-        .theme-toggle-thumb {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background-color: white;
-            transition: transform 0.3s, background-color 0.3s;
-        }
-
-        .dark-mode .theme-toggle-track {
-            background-color: #3498db;
-        }
-
-        .dark-mode .theme-toggle-thumb {
-            transform: translateX(20px);
-            background-color: #1e1e1e;
-        }
-
-        .tab-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .tab-button {
-            background-color: var(--option-bg);
+        .close-button {
             color: var(--text-color);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
             font-weight: bold;
+            cursor: pointer;
         }
 
-        .tab-button.active {
-            background-color: var(--button-bg);
-            color: white;
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--incorrect-color); /* Use incorrect color for emphasis */
+            text-decoration: none;
         }
 
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-            
-            .quiz-container {
-                padding: 15px;
-            }
-            
-            label {
-                padding: 8px;
-            }
-
-            .theme-toggle {
-                top: 10px;
-                right: 10px;
-                padding: 6px 10px;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .question-count-selector {
-                flex-wrap: wrap;
-            }
-            
-            .manual-container iframe {
-                height: 400px;
-            }
+        .modal h2 {
+             color: var(--heading-color);
+             text-align: center;
+             margin-bottom: 20px;
         }
+
+        .modal-section {
+             margin-bottom: 15px;
+        }
+         .modal-section h3 {
+             color: var(--heading-color);
+             border-bottom: 1px solid var(--selector-border);
+             padding-bottom: 5px;
+             margin-bottom: 10px;
+         }
+         .modal-section p, .modal-section ul {
+             margin-left: 15px;
+         }
+         .modal-section li {
+             margin-bottom: 5px;
+         }
+
+         /* Responsive Adjustments */
+         @media (max-width: 600px) {
+             body {
+                 padding: 10px;
+             }
+             .quiz-container {
+                 padding: 15px;
+             }
+             button {
+                 padding: 10px 20px;
+                 font-size: 14px;
+             }
+             .theme-toggle-button {
+                 top: 10px;
+                 right: 10px;
+                 padding: 6px 10px;
+                 font-size: 12px;
+             }
+              .modal-content {
+                  width: 90%;
+                  margin: 15% auto; /* Adjust vertical margin */
+              }
+         }
+
     </style>
 </head>
 <body>
-    <h1>Mississippi Driver's Permit Test (2025)</h1>
-    
+
+    <h1>Mississippi Driver's Permit Practice Test (2025)</h1>
+
     <div class="quiz-container">
-        <div class="theme-toggle" id="theme-toggle">
-            <span>Dark Mode</span>
-            <div class="theme-toggle-track">
-                <div class="theme-toggle-thumb"></div>
-            </div>
-        </div>
-
-        <div class="tab-buttons">
-            <button id="test-tab" class="tab-button active">Practice Test</button>
-            <button id="study-tab" class="tab-button">Study Guide</button>
-            <button id="manual-tab" class="tab-button">Driver's Manual</button>
-        </div>
-
-        <div id="test-section">
-            <div class="question-count-selector">
-                <button class="question-count-btn" data-count="10">10 Questions</button>
-                <button class="question-count-btn" data-count="20">20 Questions</button>
-                <button class="question-count-btn active" data-count="30">30 Questions</button>
-                <button class="question-count-btn" data-count="50">50 Questions</button>
-            </div>
-            
-            <form id="quiz-form">
-                <!-- Questions will be inserted here by JavaScript -->
-            </form>
-            
-            <div class="button-group">
-                <button id="submit-btn" type="button">Submit Test</button>
-                <button id="shuffle-btn" type="button">Shuffle Questions</button>
-            </div>
-            
-            <div id="results" class="results">
-                <h2>Test Results</h2>
-                <div id="score" class="result-count"></div>
-                <div id="review" class="review-container"></div>
-                <div class="button-group">
-                    <button id="reset-btn" class="reset-btn" type="button">Retake Test</button>
-                    <button id="view-study-guide-btn" class="study-guide-btn" type="button">View Study Guide</button>
+        <button class="theme-toggle-button" id="theme-toggle">Toggle Theme</button>
+        <form id="quiz-form">
+            <div id="questions-wrapper">
                 </div>
+
+             <div class="button-group">
+                 <button type="submit" id="submit-btn">Submit Answers</button>
             </div>
-        </div>
+        </form>
 
-        <div id="study-guide" class="study-guide">
-            <!-- Study guide content will be inserted here by JavaScript -->
-        </div>
-
-        <div id="manual-container" class="manual-container">
-            <iframe id="manual-iframe" src="1.15.2025 Revised MDPS Driver's Manual.pdf" frameborder="0"></iframe>
+        <div id="results" class="results">
+             <h2>Quiz Results</h2>
+             <p class="result-count">You scored <span class="correct-count">0</span> out of <span class="total-count">20</span></p>
+             <div id="review" class="review-container">
+                 <h3>Review Your Answers:</h3>
+                 </div>
+             <div class="button-group">
+                 <button id="reset-btn">Try Again</button>
+                 <button id="study-guide-btn">Study Guide</button>
+             </div>
         </div>
     </div>
 
+     <div id="study-guide-modal" class="modal">
+         <div class="modal-content">
+             <span class="close-button" id="close-modal">&times;</span>
+             <h2>Quick Study Guide (Based on 2025 Manual)</h2>
+
+             <div class="modal-section">
+                 <h3>Licensing Basics</h3>
+                 <p><strong>Permit Age:</strong> Must be 15 to get a Learner's Permit[cite: 538].</p>
+                 <p><strong>Permit Holding Period:</strong> Must hold permit for 1 year (unless you turn 17)[cite: 539, 540].</p>
+                 <p><strong>Permit Driving Rule:</strong> Must drive with a licensed driver 21+ in the front seat[cite: 541].</p>
+                 <p><strong>Regular License Age:</strong> Eligible at 16 if permit held for 1 year, or automatically at 17[cite: 559, 560].</p>
+                 <p><strong>Required Documents (Original):</strong> Certified birth certificate, Social Security card, 2 proofs of residency[cite: 85, 570].</p>
+                 <p><strong>Under 18:</strong> Need proof of school enrollment (Certification of Attendance, not over 30 days old)[cite: 86, 87].</p>
+                  <p><strong>Future Requirement:</strong> Driver's Ed course completion needed starting July 1, 2027[cite: 90, 94].</p>
+             </div>
+
+             <div class="modal-section">
+                 <h3>Road Rules & Safety</h3>
+                 <p><strong>Seat Belts:</strong> Required for driver and ALL passengers (front and back)[cite: 176].</p>
+                 <p><strong>Child Restraints:</strong> Specific car seat/booster seat rules based on age, height, and weight[cite: 178, 179]. Children under 13 should ride in the back seat[cite: 174].</p>
+                 <p><strong>Headlights:</strong> Use low beams within 500 ft of oncoming vehicle or when following within 500 ft[cite: 167]. Use between sunset/sunrise and when visibility is poor[cite: 168]. Low beams in fog[cite: 173].</p>
+                 <p><strong>Speed Limits (General):</strong> Obey posted signs. Reduce speed for conditions.</p>
+                 <p><strong>Following Distance:</strong> Maintain a safe distance (e.g., 3-second rule, more in bad weather).</p>
+                 <p><strong>Passing:</strong> Pass on the left when safe. Ensure clear view. Don't pass in no-passing zones (solid yellow line on your side).</p>
+                 <p><strong>Right-of-Way:</strong> Yield to pedestrians, vehicles already in intersection/roundabout[cite: 142], emergency vehicles with sirens/lights, school buses with flashing red lights/stop arm extended[cite: 58].</p>
+                 <p><strong>Intersections:</strong> Stop behind stop lines/crosswalks. Yield at unmarked intersections[cite: 138].</p>
+                  <p><strong>Roundabouts:</strong> Yield to traffic inside, enter counter-clockwise[cite: 140, 142, 143].</p>
+                 <p><strong>Parking on Hills:</strong> Turn wheels correctly (uphill w/ curb: away; otherwise: towards curb/edge)[cite: 62].</p>
+                 <p><strong>Emergency Vehicles:</strong> Pull over to the right and stop[cite: 67].</p>
+                  <p><strong>Bicycles:</strong> Treat as vehicles. Allow at least 3 feet when passing[cite: 241, 246].</p>
+                  <p><strong>Large Trucks:</strong> Be aware of blind spots ("No-Zones"). Allow extra space[cite: 72]. Don't pass on the right if it might turn right[cite: 240].</p>
+             </div>
+
+             <div class="modal-section">
+                 <h3>Signs & Signals</h3>
+                 <p><strong>Red Light:</strong> Complete stop before line/crosswalk/intersection[cite: 37].</p>
+                 <p><strong>Yellow Light:</strong> Stop if safe, otherwise proceed with caution[cite: 37].</p>
+                 <p><strong>Green Light:</strong> Proceed when safe, yield to pedestrians/vehicles in intersection[cite: 37].</p>
+                 <p><strong>Flashing Red:</strong> Treat as a stop sign[cite: 37].</p>
+                 <p><strong>Flashing Yellow:</strong> Proceed with caution[cite: 37].</p>
+                 <p><strong>Sign Shapes:</strong> Octagon (Stop), Triangle (Yield), Diamond (Warning), Pentagon (School Zone/Crossing), Circle (Railroad Crossing Ahead)[cite: 27].</p>
+             </div>
+              <div class="modal-section">
+                  <h3>Driving Under Influence</h3>
+                  <p><strong>Implied Consent:</strong> By driving, you agree to chemical tests if suspected of DUI[cite: 311].</p>
+                  <p><strong>Refusal Consequences:</strong> License suspension (90 days for first refusal)[cite: 326].</p>
+                  <p><strong>Alcohol/Drugs:</strong> Illegal and dangerous. Impairs judgment and reflexes[cite: 310, 312, 317].</p>
+              </div>
+              <div class="modal-section">
+                  <h3>Other Key Points</h3>
+                  <p><strong>Insurance:</strong> Liability insurance is mandatory[cite: 296]. Carry proof in vehicle (physical or electronic)[cite: 297, 299].</p>
+                  <p><strong>Address Change:</strong> Notify DPS within required time frame.</p>
+                  <p><strong>Littering:</strong> Illegal and finable[cite: 491].</p>
+                  <p><strong>Texting/Distracted Driving:</strong> Dangerous and a leading cause of accidents[cite: 5, 6]. Focus on driving.</p>
+              </div>
+         </div>
+     </div>
+
+
     <script>
-        // Test questions data - Updated with accurate information from the 2025 manual
-        const questions = [
+        const allQuestions = [
+            // Questions derived from the 2025 Mississippi Driver's Manual
+            {
+                question: "Under Mississippi law, when must you have a valid Driver's License or Learner's Permit?",
+                options: {
+                    a: "Only when driving on interstates",
+                    b: "Only when driving outside city limits",
+                    c: "To operate any motor vehicle (except road/farm equipment) on streets or highways",
+                    d: "Only if you are under 21 years old"
+                },
+                answer: "c",
+                sourcePage: 10 // [cite: 504]
+            },
+            {
+                question: "If you move to Mississippi, you must obtain a Mississippi driver's license within how many days?",
+                options: {
+                    a: "30 days",
+                    b: "60 days",
+                    c: "90 days",
+                    d: "6 months"
+                },
+                answer: "b",
+                sourcePage: 11 // [cite: 512]
+            },
+            {
+                question: "If you move to Mississippi, you must obtain a Mississippi license plate/tag within how many days?",
+                options: {
+                    a: "30 days",
+                    b: "60 days",
+                    c: "90 days",
+                    d: "Immediately"
+                },
+                answer: "a",
+                sourcePage: 11 // [cite: 513]
+            },
+            {
+                question: "If you have a valid out-of-state driver's license when applying for a Mississippi license, which test is usually waived?",
+                options: {
+                    a: "Vision Exam",
+                    b: "Road Test",
+                    c: "Computerized Exam",
+                    d: "Drug Test"
+                },
+                answer: "c",
+                sourcePage: 11 // [cite: 517]
+            },
             {
                 question: "What is the minimum age to apply for a Regular Learner's Permit in Mississippi?",
-                options: [
-                    "14 years old",
-                    "15 years old",
-                    "16 years old",
-                    "17 years old"
-                ],
-                answer: "B"
+                options: {
+                    a: "14",
+                    b: "15",
+                    c: "16",
+                    d: "17"
+                },
+                answer: "b",
+                sourcePage: 13 // [cite: 538]
             },
-            {
-                question: "Which document is NOT required when applying for a driver's license in Mississippi?",
-                options: [
-                    "Social Security card",
-                    "Certified birth certificate",
-                    "Proof of residency",
-                    "High school diploma"
-                ],
-                answer: "D"
-            },
-            {
-                question: "When driving with a Regular Learner's Permit, you must be accompanied by:",
-                options: [
-                    "A licensed driver aged 18 or older",
-                    "A licensed driver aged 21 or older",
-                    "A parent or legal guardian",
-                    "Any licensed driver"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What does a red octagonal sign indicate?",
-                options: [
-                    "Yield",
-                    "Stop",
-                    "No entry",
-                    "Railroad crossing"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What does a yellow diamond-shaped sign warn of?",
-                options: [
-                    "A stop sign ahead",
-                    "A yield sign ahead",
-                    "A hazard or special condition ahead",
-                    "A railroad crossing ahead"
-                ],
-                answer: "C"
-            },
-            {
-                question: "What does a broken yellow line on the road indicate?",
-                options: [
-                    "Passing is allowed with caution",
-                    "Passing is prohibited",
-                    "The lane is for left turns only",
-                    "The road is about to end"
-                ],
-                answer: "A"
-            },
-            {
-                question: "What does a solid white line on the road mean?",
-                options: [
-                    "Traffic is moving in opposite directions",
-                    "Passing is allowed",
-                    "Lane changing is discouraged",
-                    "The road is one-way"
-                ],
-                answer: "C"
-            },
-            {
-                question: "What is the speed limit in a school zone when children are present, unless otherwise posted?",
-                options: [
-                    "15 mph",
-                    "20 mph",
-                    "25 mph",
-                    "30 mph"
-                ],
-                answer: "A"
-            },
-            {
-                question: "When must you use your headlights?",
-                options: [
-                    "Only at night",
-                    "When visibility is less than 500 feet",
-                    "When driving in rain or fog",
-                    "All of the above"
-                ],
-                answer: "D"
-            },
-            {
-                question: "In Mississippi, seat belts are required for:",
-                options: [
-                    "The driver only",
-                    "The driver and front-seat passengers",
-                    "All passengers",
-                    "Only passengers under 18"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What is the penalty for a first-offense DUI for a driver 21 or older in Mississippi?",
-                options: [
-                    "$100 fine and 24 hours in jail",
-                    "$250-$1,000 fine and up to 48 hours in jail",
-                    "$500 fine and 5 days in jail",
-                    "$1,000 fine and 1 year license suspension"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What should you do if you witness an accident?",
-                options: [
-                    "Keep driving to avoid traffic congestion",
-                    "Stop and offer assistance if it's safe",
-                    "Call 911 and then leave",
-                    "Take pictures for insurance purposes"
-                ],
-                answer: "B"
-            },
-            {
-                question: "When passing a bicycle, you must leave a safe distance of at least:",
-                options: [
-                    "1 foot",
-                    "2 feet",
-                    "3 feet",
-                    "4 feet"
-                ],
-                answer: "C"
-            },
-            {
-                question: "How should you merge onto an interstate highway?",
-                options: [
-                    "Stop at the end of the ramp and wait for a gap",
-                    "Speed up to match traffic speed and merge smoothly",
-                    "Use your hazard lights to alert other drivers",
-                    "Honk your horn to signal your intention"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What does a green arrow traffic signal indicate?",
-                options: [
-                    "You may proceed in the direction of the arrow",
-                    "You must stop and then proceed",
-                    "Pedestrians may cross",
-                    "The light is about to change"
-                ],
-                answer: "A"
-            },
-            {
-                question: "When an emergency vehicle with lights and siren approaches, you should:",
-                options: [
-                    "Speed up to get out of the way",
-                    "Pull over to the right and stop",
-                    "Continue driving and let them pass",
-                    "Honk to acknowledge their presence"
-                ],
-                answer: "B"
-            },
-            {
-                question: "When driving through a roundabout, you should:",
-                options: [
-                    "Yield to traffic already in the roundabout",
-                    "Stop before entering",
-                    "Speed up to merge quickly",
-                    "Honk to alert other drivers"
-                ],
-                answer: "A"
-            },
-            {
-                question: "What should you do if your vehicle starts to skid?",
-                options: [
-                    "Slam on the brakes",
-                    "Steer in the direction you want to go",
-                    "Accelerate quickly",
-                    "Turn the steering wheel sharply"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What does a flashing yellow light mean?",
-                options: [
-                    "Stop and wait",
-                    "Proceed with caution",
-                    "Yield to oncoming traffic",
-                    "No turn allowed"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What is the rule for turning right on red?",
-                options: [
-                    "It's never allowed",
-                    "Stop first, then turn if safe",
-                    "Turn without stopping",
-                    "Yield to pedestrians only"
-                ],
-                answer: "B"
-            },
-            {
-                question: "How should you park on a hill if facing downhill?",
-                options: [
-                    "Wheels straight",
-                    "Wheels turned away from the curb",
-                    "Wheels turned toward the curb",
-                    "Wheels turned to the left"
-                ],
-                answer: "C"
-            },
-            {
-                question: "What should you do if your vehicle begins to hydroplane?",
-                options: [
-                    "Accelerate to regain control",
-                    "Brake hard to stop",
-                    "Ease off the accelerator and steer straight",
-                    "Turn the wheel sharply"
-                ],
-                answer: "C"
-            },
-            {
-                question: "What must you do at a railroad crossing with no signals if driving a truck with flammable loads?",
-                options: [
-                    "Proceed with caution",
-                    "Stop and check for trains",
-                    "Speed up to clear the tracks",
-                    "Honk to warn others"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What does a pentagon-shaped sign indicate?",
-                options: [
-                    "No passing zone",
-                    "School zone or crossing",
-                    "Railroad crossing",
-                    "Yield ahead"
-                ],
-                answer: "B"
-            },
-            {
-                question: "When sharing the road with large trucks, you should avoid:",
-                options: [
-                    "Passing on the right during a right turn",
-                    "Staying in their blind spots",
-                    "Following too closely",
-                    "All of the above"
-                ],
-                answer: "D"
-            },
-            {
-                question: "What should you do if your accelerator sticks?",
-                options: [
-                    "Turn off the ignition while driving",
-                    "Shift to neutral and apply brakes",
-                    "Accelerate to free it",
-                    "Pull over without braking"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What does a blue sign with white lettering typically indicate?",
-                options: [
-                    "Regulatory information",
-                    "Motorist services guidance",
-                    "Warning of a hazard",
-                    "Construction zone"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What is the maximum speed limit on the Natchez Trace Parkway unless otherwise posted?",
-                options: [
-                    "45 mph",
-                    "50 mph",
-                    "55 mph",
-                    "60 mph"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What is the minimum liability insurance required for property damage in Mississippi?",
-                options: [
-                    "$15,000",
-                    "$20,000",
-                    "$25,000",
-                    "$50,000"
-                ],
-                answer: "C"
-            },
-            {
-                question: "What must you do if you refuse a breath test under the Implied Consent Law?",
-                options: [
-                    "Pay a $100 fine immediately",
-                    "Surrender your license for 90 days",
-                    "Take a written test instead",
-                    "Nothing, it's your right to refuse"
-                ],
-                answer: "B"
-            },
-            {
-                question: "Beginning July 1, 2027, what will be required to obtain a driver's license in Mississippi?",
-                options: [
-                    "A high school diploma",
-                    "Proof of insurance",
-                    "Completion of a certified Driver's Education course",
-                    "A doctor's medical clearance"
-                ],
-                answer: "C"
-            },
-            {
-                question: "What is the minimum age to apply for a Regular Driver's License in Mississippi without having held a Learner's Permit for one year?",
-                options: [
-                    "16 years old",
-                    "17 years old",
-                    "18 years old",
-                    "21 years old"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What is considered a 'squatted vehicle' under Mississippi law?",
-                options: [
-                    "A vehicle with tinted windows",
-                    "A vehicle with the front fender raised 4 or more inches higher than the rear fender",
-                    "A vehicle with oversized tires",
-                    "A vehicle without proper mufflers"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What is the recommended following distance at 70 mph according to the Mississippi Driver's Manual?",
-                options: [
-                    "3 car lengths",
-                    "5 car lengths",
-                    "7 car lengths",
-                    "10 car lengths"
-                ],
-                answer: "C"
-            },
-            {
-                question: "Which of the following is NOT one of the required documents when applying for a driver's license in Mississippi?",
-                options: [
-                    "Social security card",
-                    "Certified birth certificate",
-                    "Two proofs of residency",
-                    "High school transcript"
-                ],
-                answer: "D"
-            },
-            {
-                question: "What does a triangular sign indicate?",
-                options: [
-                    "Stop",
-                    "Yield",
-                    "School zone",
-                    "Construction area"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What arm signal indicates a right turn?",
-                options: [
-                    "Left arm straight out",
-                    "Left arm pointed down",
-                    "Left arm pointed up",
-                    "Right arm straight out"
-                ],
-                answer: "C"
-            },
-            {
-                question: "What is the BAC (Blood Alcohol Concentration) limit for drivers under 21 in Mississippi?",
-                options: [
-                    "0.00%",
-                    "0.02%",
-                    "0.05%",
-                    "0.08%"
-                ],
-                answer: "B"
-            },
-            {
-                question: "At a four-way stop, if two vehicles arrive at the same time, who has the right of way?",
-                options: [
-                    "The vehicle on the right",
-                    "The vehicle on the left",
-                    "The larger vehicle",
-                    "The vehicle going straight"
-                ],
-                answer: "A"
-            },
-            {
-                question: "How close to the curb should you park when parallel parking?",
-                options: [
-                    "Within 6 inches",
-                    "Within 12 inches",
-                    "Within 18 inches",
-                    "Within 24 inches"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What distance must your horn be audible from?",
-                options: [
-                    "100 feet",
-                    "200 feet",
-                    "300 feet",
-                    "500 feet"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What should you do if your brakes fail?",
-                options: [
-                    "Pump the brake pedal rapidly",
-                    "Use the parking brake gradually",
-                    "Shift to a lower gear to slow down",
-                    "All of the above"
-                ],
-                answer: "D"
-            },
-            {
-                question: "When is it legal to exceed the posted speed limit in Mississippi?",
-                options: [
-                    "When passing another vehicle",
-                    "When late for an appointment",
-                    "When driving on an interstate highway",
-                    "It is never legal to exceed the posted speed limit"
-                ],
-                answer: "D"
-            },
-            {
-                question: "What does a solid yellow line on your side of the center line mean?",
-                options: [
-                    "Passing is permitted",
-                    "Passing is prohibited",
-                    "You are in a no-parking zone",
-                    "You are approaching a school zone"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What is the minimum bodily injury liability coverage required per person in Mississippi?",
-                options: [
-                    "$15,000",
-                    "$25,000",
-                    "$50,000",
-                    "$100,000"
-                ],
-                answer: "B"
-            },
-            {
-                question: "What is the minimum age to apply for a Class D license in Mississippi?",
-                options: [
-                    "16 years old",
-                    "17 years old",
-                    "18 years old",
-                    "21 years old"
-                ],
-                answer: "C"
-            },
-            {
-                question: "What should you do when approaching a school bus with flashing red lights?",
-                options: [
-                    "Pass slowly and carefully",
-                    "Stop and remain stopped until the red lights are turned off",
-                    "Honk to alert the driver you are passing",
-                    "Slow down to 15 mph and pass"
-                ],
-                answer: "B"
-            },
-            {
-                question: "How far must your headlights be visible from?",
-                options: [
-                    "200 feet",
-                    "300 feet",
-                    "400 feet",
-                    "500 feet"
-                ],
-                answer: "D"
-            },
-            {
-                question: "What does an orange color on traffic signs indicate?",
-                options: [
-                    "Regulatory information",
-                    "Construction or maintenance warning",
-                    "Motorist services",
-                    "School zone"
-                ],
-                answer: "B"
-            }
+             {
+                question: "How long must you generally hold a Learner's Permit before upgrading to a Regular Driver's License?",
+                options: {
+                    a: "6 months",
+                    b: "9 months",
+                    c: "1 year",
+                    d: "2 years"
+                },
+                answer: "c",
+                sourcePage: 13 // [cite: 539]
+             },
+             {
+                question: "When driving with a Regular Learner's Permit, who must accompany you?",
+                options: {
+                    a: "Any licensed driver over 18",
+                    b: "A parent or guardian only",
+                    c: "A licensed driver aged 21 or older, occupying the seat next to you",
+                    d: "No one, if it's daylight hours"
+                },
+                answer: "c",
+                sourcePage: 13 // [cite: 541]
+             },
+             {
+                 question: "To operate a motorcycle in Mississippi, what must you obtain in addition to your driver's license?",
+                 options: {
+                     a: "A Class D license",
+                     b: "A special permit renewed annually",
+                     c: "A Motorcycle Endorsement",
+                     d: "Proof of advanced rider training"
+                 },
+                 answer: "c",
+                 sourcePage: 14 // [cite: 546]
+             },
+             {
+                question: "Is wearing a crash helmet mandatory when operating or riding a motorcycle on public roads in Mississippi?",
+                options: {
+                    a: "Yes, always",
+                    b: "No, it's optional",
+                    c: "Only if under 21",
+                    d: "Only on interstates"
+                },
+                answer: "a",
+                sourcePage: 14 // [cite: 551]
+             },
+             {
+                question: "At what age can you apply directly for a Regular Driver's License (Class R) without previously holding a permit for a year?",
+                options: {
+                    a: "16",
+                    b: "17 or older",
+                    c: "18 or older",
+                    d: "21 or older"
+                },
+                answer: "b",
+                sourcePage: 15 // [cite: 560, 566]
+             },
+             {
+                 question: "How many proofs of residency are required for an original license application if you are 18 or older?",
+                 options: {
+                     a: "One",
+                     b: "Two",
+                     c: "Three",
+                     d: "None if you have a birth certificate"
+                 },
+                 answer: "b",
+                 sourcePage: 16 // [cite: 569] (Implied by "...show TWO pieces...")
+             },
+             {
+                question: "Which two documents are primary proofs of identification required for a license or permit?",
+                options: {
+                    a: "School ID and Library Card",
+                    b: "Passport and Credit Card",
+                    c: "Social Security Card and Certified Birth Certificate",
+                    d: "Utility Bill and Voter Registration Card"
+                },
+                answer: "c",
+                sourcePage: 16 // [cite: 85]
+             },
+             {
+                question: "If you are under 18 applying for a license, what document must you provide regarding school?",
+                options: {
+                    a: "Report Card",
+                    b: "Letter from a teacher",
+                    c: "Certification of Attendance form (not over 30 days old)",
+                    d: "Student ID card"
+                },
+                answer: "c",
+                sourcePage: 16 // [cite: 86, 87]
+             },
+              {
+                  question: "Beginning July 1, 2027, what additional documentation will be required for a driver's license?",
+                  options: {
+                      a: "Proof of vehicle ownership",
+                      b: "A letter of recommendation",
+                      c: "Proof of employment",
+                      d: "Documentation showing completion of a certified Driver's Education course"
+                  },
+                  answer: "d",
+                  sourcePage: 16 // [cite: 90, 94]
+              },
+              {
+                question: "What does Mississippi's Implied Consent Law mean?",
+                options: {
+                    a: "You consent to let others drive your car.",
+                    b: "You consent to vehicle searches if stopped.",
+                    c: "By driving, you consent to a chemical test for BAC if arrested for DUI.",
+                    d: "You consent to higher insurance rates."
+                },
+                answer: "c",
+                sourcePage: 77 // [cite: 311]
+              },
+               {
+                   question: "What is the minimum single person injury liability insurance coverage required in Mississippi?",
+                   options: {
+                       a: "$10,000",
+                       b: "$15,000",
+                       c: "$25,000",
+                       d: "$50,000"
+                   },
+                   answer: "c",
+                   sourcePage: 76 // [cite: 295] (Table data)
+               },
+               {
+                   question: "If you refuse a chemical test requested by law enforcement upon a DUI arrest, what is the administrative license suspension period for a first refusal?",
+                   options: {
+                       a: "30 days",
+                       b: "60 days",
+                       c: "90 days",
+                       d: "1 year"
+                   },
+                   answer: "c",
+                   sourcePage: 78 // [cite: 326]
+               },
+               {
+                   question: "What shape is a standard STOP sign?",
+                   options: {
+                       a: "Diamond",
+                       b: "Triangle",
+                       c: "Octagon",
+                       d: "Rectangle"
+                   },
+                   answer: "c",
+                   sourcePage: 27 // (Common knowledge, confirmed by typical manual structure)
+               },
+               {
+                   question: "What does a flashing red traffic light mean?",
+                   options: {
+                       a: "Stop and wait for green",
+                       b: "Slow down and proceed with caution",
+                       c: "The light is broken, proceed as if it were a yield sign",
+                       d: "The same as a stop sign; stop completely then proceed when safe"
+                   },
+                   answer: "d",
+                   sourcePage: 37 // (General traffic signal rules)
+               },
+               {
+                    question: "What does a solid yellow line on your side of the center line mean?",
+                    options: {
+                        a: "Passing is permitted with caution",
+                        b: "Passing is permitted only during daylight",
+                        c: "Passing is prohibited",
+                        d: "The lane is ending"
+                    },
+                    answer: "c",
+                    sourcePage: 25 // (Pavement markings section)
+               },
+                {
+                    question: "When approaching an intersection with no traffic signs or signals, you should:",
+                    options: {
+                        a: "Speed up to clear the intersection quickly",
+                        b: "Assume you have the right-of-way",
+                        c: "Yield to approaching traffic, then proceed when safe",
+                        d: "Stop only if you see another vehicle"
+                    },
+                    answer: "c",
+                    sourcePage: 57 // [cite: 138]
+                },
+                 {
+                     question: "In a roundabout, which direction does traffic flow?",
+                     options: {
+                         a: "Clockwise",
+                         b: "Counterclockwise",
+                         c: "Both directions are allowed",
+                         d: "Depends on the size of the roundabout"
+                     },
+                     answer: "b",
+                     sourcePage: 57 // [cite: 140, 143]
+                 },
+                  {
+                      question: "When entering a roundabout, who has the right-of-way?",
+                      options: {
+                          a: "Vehicles entering the roundabout",
+                          b: "Vehicles already circulating within the roundabout",
+                          c: "The vehicle to the right",
+                          d: "The largest vehicle"
+                      },
+                      answer: "b",
+                      sourcePage: 57 // [cite: 140, 142]
+                  },
+                  {
+                    question: "When are you required by law to use your headlights?",
+                    options: {
+                        a: "Only when it's completely dark",
+                        b: "Between sunset and sunrise and when visibility is poor (cannot see 500 ft ahead)",
+                        c: "Only during rain or fog",
+                        d: "Whenever you are driving over 45 mph"
+                    },
+                    answer: "b",
+                    sourcePage: 63 // [cite: 168]
+                  },
+                  {
+                    question: "When approaching an oncoming vehicle at night, you must dim your headlights (use low beams) when you are within:",
+                    options: {
+                        a: "100 feet",
+                        b: "300 feet",
+                        c: "500 feet",
+                        d: "1000 feet"
+                    },
+                    answer: "c",
+                    sourcePage: 63 // [cite: 167]
+                  },
+                   {
+                       question: "When following another vehicle at night, you must use low beams when you are within:",
+                       options: {
+                           a: "200 feet",
+                           b: "300 feet",
+                           c: "500 feet",
+                           d: "700 feet"
+                       },
+                       answer: "c",
+                       sourcePage: 63 // [cite: 167]
+                   },
+                   {
+                    question: "Mississippi law requires _______ to wear a properly fastened seat belt in a passenger motor vehicle.",
+                    options: {
+                        a: "Only the driver",
+                        b: "Only front seat occupants",
+                        c: "Only passengers under 18",
+                        d: "The driver and all passengers (front and back seats)"
+                    },
+                    answer: "d",
+                    sourcePage: 64 // [cite: 176]
+                   },
+                   {
+                    question: "Children under _____ years old must be secured in a child passenger restraint device (car seat).",
+                    options: {
+                        a: "Two",
+                        b: "Three",
+                        c: "Four",
+                        d: "Five"
+                    },
+                    answer: "c",
+                    sourcePage: 64 // [cite: 178]
+                   },
+                   {
+                     question: "When encountering a stopped school bus with flashing red lights and stop arm extended on an undivided roadway, you must:",
+                     options: {
+                         a: "Slow down and pass carefully",
+                         b: "Stop regardless of your direction of travel",
+                         c: "Stop only if you are behind the bus",
+                         d: "Honk to alert children"
+                     },
+                     answer: "b",
+                     sourcePage: 58 // (Yielding to School Buses section)
+                   },
+                    {
+                        question: "When an emergency vehicle approaches displaying flashing lights and/or sounding a siren, what should you do?",
+                        options: {
+                            a: "Speed up to get out of the way",
+                            b: "Stop immediately in your lane",
+                            c: "Pull over to the right edge of the road and stop",
+                            d: "Follow the emergency vehicle closely"
+                        },
+                        answer: "c",
+                        sourcePage: 67 // (Yielding to Emergency Vehicles section)
+                    },
+                    {
+                        question: "When merging onto an interstate highway from an acceleration lane, you should:",
+                        options: {
+                            a: "Stop at the end of the ramp before merging",
+                            b: "Merge at a speed significantly slower than traffic",
+                            c: "Adjust your speed to match the flow of traffic and merge safely",
+                            d: "Force your way into traffic immediately"
+                        },
+                        answer: "c",
+                        sourcePage: 69 // [cite: 217, 218, 220]
+                    },
+                    {
+                        question: "Is it legal to litter from your vehicle in Mississippi?",
+                        options: {
+                            a: "Yes, if it's biodegradable",
+                            b: "Yes, but only on rural roads",
+                            c: "No, it is illegal and subject to fines",
+                            d: "Only small items are permitted"
+                        },
+                        answer: "c",
+                        sourcePage: 6 // [cite: 490, 491]
+                    },
+                     {
+                         question: "According to Mississippi law, when riding on public roads, a bicycle is considered a:",
+                         options: {
+                             a: "Pedestrian",
+                             b: "Toy",
+                             c: "Vehicle",
+                             d: "Road hazard"
+                         },
+                         answer: "c",
+                         sourcePage: 73 // [cite: 241, 243]
+                     },
+                     {
+                        question: "When passing a bicyclist traveling in the same direction, drivers must leave a safe distance of at least:",
+                        options: {
+                            a: "One foot",
+                            b: "Two feet",
+                            c: "Three feet",
+                            d: "Five feet"
+                        },
+                        answer: "c",
+                        sourcePage: 73 // [cite: 246]
+                     },
+                      {
+                          question: "Why should you avoid driving in a large truck's \"No-Zones\" (blind spots)?",
+                          options: {
+                              a: "It saves fuel",
+                              b: "The truck driver cannot see you",
+                              c: "It's only illegal on interstates",
+                              d: "It causes wind turbulence"
+                          },
+                          answer: "b",
+                          sourcePage: 72 // (Road Safety with Large Vehicles section implies this)
+                      },
+                      {
+                          question: "If a large truck is signaling a right turn, why should you avoid passing it on the right?",
+                          options: {
+                              a: "It's always illegal to pass on the right",
+                              b: "The truck might swing wide to the left before turning right",
+                              c: "The truck driver might change their mind",
+                              d: "You might block their view"
+                          },
+                          answer: "b",
+                          sourcePage: 72 // [cite: 239, 240]
+                      },
+                       {
+                           question: "Parking is not allowed within how many feet of a fire hydrant?",
+                           options: {
+                               a: "5 feet",
+                               b: "10 feet",
+                               c: "15 feet",
+                               d: "20 feet"
+                           },
+                           answer: "b",
+                           sourcePage: 60 // (Parking section - common rule often listed)
+                       },
+                        {
+                            question: "When parking uphill next to a curb, which way should you turn your front wheels?",
+                            options: {
+                                a: "Straight ahead",
+                                b: "Towards the curb",
+                                c: "Away from the curb",
+                                d: "It doesn't matter"
+                            },
+                            answer: "c",
+                            sourcePage: 62 // (Parking on a Hill section)
+                        },
+                         {
+                             question: "What is one of the leading causes of accidents mentioned in the manual?",
+                             options: {
+                                 a: "Poor road conditions",
+                                 b: "Vehicle malfunctions",
+                                 c: "Distracted driving",
+                                 d: "Bad weather"
+                             },
+                             answer: "c",
+                             sourcePage: 4 // [cite: 5]
+                         }
+            // Add more questions as needed up to 40
         ];
 
-        // Study guide content
-        const studyGuide = [
-            {
-                title: "License Requirements",
-                content: `
-                    <p><strong>Minimum Age:</strong> 15 for a Regular Learner's Permit; 17 without needing 1 year permit experience.</p>
-                    <p><strong>Documents:</strong> Social Security card, certified birth certificate, two proofs of residency.</p>
-                    <p><strong>Learner's Permit Rules:</strong> Must be with a licensed driver 21+.</p>
-                    <p><strong>New Requirement:</strong> Beginning July 1, 2027, completion of a certified Driver's Education course.</p>
-                `
-            },
-            {
-                title: "Traffic Signs and Signals",
-                content: `
-                    <p><strong>Shapes:</strong> Octagon = Stop; Diamond = Hazard; Pentagon = School; Triangle = Yield.</p>
-                    <p><strong>Colors:</strong> Red = Stop; Yellow = Warning; Blue = Services; Orange = Construction.</p>
-                    <p><strong>Signal Lights:</strong> Red = Stop; Yellow = Caution; Green = Go; Flashing Red = Stop and proceed when safe; Flashing Yellow = Proceed with caution.</p>
-                `
-            },
-            {
-                title: "Pavement Markings",
-                content: `
-                    <p><strong>Yellow Lines:</strong> Broken = Pass with caution; Solid = No passing.</p>
-                    <p><strong>White Lines:</strong> Solid = Lane change discouraged; Double solid = No crossing.</p>
-                    <p><strong>Directional Arrows:</strong> Indicate required or permitted movements at intersections.</p>
-                `
-            },
-            {
-                title: "Rules of the Road",
-                content: `
-                    <p><strong>Speed Limits:</strong> School zones = 15 mph; Interstates = 70 mph.</p>
-                    <p><strong>Following Distance:</strong> At least 7 car lengths at 70 mph.</p>
-                    <p><strong>Right of Way:</strong> Yield to vehicle on right at intersections if arriving simultaneously.</p>
-                    <p><strong>School Buses:</strong> Stop when red lights are flashing.</p>
-                    <p><strong>Sharing the Road:</strong> Leave at least 3 feet when passing bicycles.</p>
-                `
-            },
-            {
-                title: "Vehicle Requirements",
-                content: `
-                    <p><strong>Equipment:</strong> Functioning headlights, taillights, brakes, horn, and windshield wipers.</p>
-                    <p><strong>Insurance:</strong> Minimum coverage of $25,000/$50,000/$25,000.</p>
-                    <p><strong>Squatted Vehicle Law:</strong> Unlawful to drive with front fender raised 4+ inches higher than rear.</p>
-                `
-            },
-            {
-                title: "Safe Driving Practices",
-                content: `
-                    <p><strong>Night Driving:</strong> Use headlights, reduce speed.</p>
-                    <p><strong>Adverse Weather:</strong> Slow down, increase following distance.</p>
-                    <p><strong>Fatigue:</strong> Take breaks every 100 miles, get adequate sleep.</p>
-                    <p><strong>Distracted Driving:</strong> No cell phone use or texting while driving.</p>
-                `
-            },
-            {
-                title: "DUI and Implied Consent",
-                content: `
-                    <p><strong>BAC Limits:</strong> 21+ = 0.08%; Under 21 = 0.02%.</p>
-                    <p><strong>Implied Consent:</strong> Refusal to take a breath test results in 90-day license suspension.</p>
-                    <p><strong>Penalties:</strong> Fines, jail time, license suspension.</p>
-                `
-            }
-        ];
-
-        // DOM elements
         const quizForm = document.getElementById('quiz-form');
-        const submitBtn = document.getElementById('submit-btn');
-        const shuffleBtn = document.getElementById('shuffle-btn');
+        const questionsWrapper = document.getElementById('questions-wrapper');
         const resultsDiv = document.getElementById('results');
-        const scoreDiv = document.getElementById('score');
         const reviewDiv = document.getElementById('review');
+        const submitBtn = document.getElementById('submit-btn');
         const resetBtn = document.getElementById('reset-btn');
-        const viewStudyGuideBtn = document.getElementById('view-study-guide-btn');
-        const studyGuideDiv = document.getElementById('study-guide');
-        const themeToggle = document.getElementById('theme-toggle');
-        const testTab = document.getElementById('test-tab');
-        const studyTab = document.getElementById('study-tab');
-        const manualTab = document.getElementById('manual-tab');
-        const testSection = document.getElementById('test-section');
-        const manualContainer = document.getElementById('manual-container');
-        const questionCountBtns = document.querySelectorAll('.question-count-btn');
+        const studyGuideBtn = document.getElementById('study-guide-btn');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const modal = document.getElementById('study-guide-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const resultCountSpan = resultsDiv.querySelector('.result-count');
 
-        // Global variables
-        let currentQuestions = [];
-        let questionCount = 30; // Default question count
+        let currentQuestions = []; // Holds the 20 randomly selected questions for the current quiz
+        let userAnswers = {}; // Stores user's selections { qIndex: selectedOption }
 
-        // Initialize the app
-        function init() {
-            loadQuestions();
-            setupEventListeners();
-            populateStudyGuide();
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+            }
         }
 
-        // Load questions based on the selected count
         function loadQuestions() {
-            // Shuffle all questions
-            const shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
-            
-            // Select the required number of questions
-            currentQuestions = shuffledQuestions.slice(0, questionCount);
-            
-            // Render the questions
-            renderQuestions();
-        }
+            // Clear previous state
+             questionsWrapper.innerHTML = '';
+             resultsDiv.style.display = 'none';
+             reviewDiv.innerHTML = '<h3>Review Your Answers:</h3>'; // Reset review section header
+             submitBtn.style.display = 'block'; // Show submit button
+             userAnswers = {};
 
-        // Render questions to the form
-        function renderQuestions() {
-            quizForm.innerHTML = '';
-            
+            // Shuffle and select 20 questions
+            let shuffled = [...allQuestions]; // Create a copy
+            shuffleArray(shuffled);
+            currentQuestions = shuffled.slice(0, 20); // Get the first 20
+
+            // Display questions
             currentQuestions.forEach((q, index) => {
-                const questionDiv = document.createElement('div');
-                questionDiv.className = 'question';
-                questionDiv.dataset.index = index;
-                
-                questionDiv.innerHTML = `
-                    <p><strong>Question ${index + 1}:</strong> ${q.question}</p>
-                    <div class="options">
-                        <label>
-                            <input type="radio" name="q${index}" value="A" required>
-                            A. ${q.options[0]}
-                        </label>
-                        <label>
-                            <input type="radio" name="q${index}" value="B" required>
-                            B. ${q.options[1]}
-                        </label>
-                        <label>
-                            <input type="radio" name="q${index}" value="C" required>
-                            C. ${q.options[2]}
-                        </label>
-                        <label>
-                            <input type="radio" name="q${index}" value="D" required>
-                            D. ${q.options[3]}
-                        </label>
-                    </div>
-                `;
-                
-                quizForm.appendChild(questionDiv);
-            });
-        }
+                const questionElement = document.createElement('div');
+                questionElement.classList.add('question');
+                questionElement.innerHTML = `<p>${index + 1}. ${q.question}</p>`;
 
-        // Shuffle the current questions
-        function shuffleQuestions() {
-            currentQuestions = [...currentQuestions].sort(() => Math.random() - 0.5);
-            renderQuestions();
-        }
+                const optionsDiv = document.createElement('div');
+                optionsDiv.classList.add('options');
 
-        // Submit the test and show results
-        function submitTest() {
-            // Check if all questions are answered
-            const unansweredQuestions = [];
-            currentQuestions.forEach((q, index) => {
-                const answered = document.querySelector(`input[name="q${index}"]:checked`);
-                if (!answered) {
-                    unansweredQuestions.push(index + 1);
+                for (const key in q.options) {
+                    const label = document.createElement('label');
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = `question${index}`;
+                    input.value = key;
+                    input.id = `q${index}${key}`; // Unique ID for label 'for' attribute
+
+                    input.addEventListener('change', () => {
+                         userAnswers[index] = key; // Store user answer on change
+                    });
+
+
+                    label.htmlFor = input.id; // Associate label with input
+                    label.appendChild(input);
+                    label.appendChild(document.createTextNode(` ${q.options[key]}`)); // Add space before option text
+                    optionsDiv.appendChild(label);
                 }
+
+                questionElement.appendChild(optionsDiv);
+                questionsWrapper.appendChild(questionElement);
             });
-            
-            if (unansweredQuestions.length > 0) {
-                alert(`Please answer all questions. Missing: ${unansweredQuestions.join(', ')}`);
-                return;
-            }
-            
-            // Calculate score
-            let correctCount = 0;
-            const reviewHtml = [];
-            
+             // Update total count in results display
+             resultsDiv.querySelector('.total-count').textContent = currentQuestions.length;
+        }
+
+        function showResults() {
+            let score = 0;
+             reviewDiv.innerHTML = '<h3>Review Your Answers:</h3>'; // Clear previous review
+
             currentQuestions.forEach((q, index) => {
-                const selectedAnswer = document.querySelector(`input[name="q${index}"]:checked`).value;
-                const isCorrect = selectedAnswer === q.answer;
-                
+                const correctAnswer = q.answer;
+                const userAnswer = userAnswers[index]; // Get the stored answer
+                 const isCorrect = userAnswer === correctAnswer;
+
                 if (isCorrect) {
-                    correctCount++;
+                    score++;
                 }
-                
-                // Add to review
-                reviewHtml.push(`
-                    <div class="review-question ${isCorrect ? 'correct' : 'incorrect'}">
-                        <p><strong>Question ${index + 1}:</strong> ${q.question}</p>
-                        <p>${isCorrect ? 
-                            `<span class="correct-answer">✓ Correct: ${getAnswerText(q.answer, q.options)}</span>` : 
-                            `<span class="wrong-answer">✗ Your answer: ${getAnswerText(selectedAnswer, q.options)}</span><br>
-                            <span class="correct-answer">Correct answer: ${getAnswerText(q.answer, q.options)}</span>`
-                        }</p>
-                    </div>
-                `);
+
+                // --- Create Review Element ---
+                const reviewElement = document.createElement('div');
+                reviewElement.classList.add('review-question');
+                 reviewElement.classList.add(isCorrect ? 'correct-answered' : 'incorrect-answered'); // Add class based on correctness
+                reviewElement.innerHTML = `<p>${index + 1}. ${q.question}</p>`;
+
+                const reviewOptionsDiv = document.createElement('div');
+                reviewOptionsDiv.classList.add('review-options'); // Add class for styling review options
+
+                for (const key in q.options) {
+                    const label = document.createElement('label');
+                    const input = document.createElement('input'); // Keep structure, but disable interaction
+                    input.type = 'radio';
+                    input.name = `review_q${index}`; // Different name to avoid conflicts
+                    input.value = key;
+                    input.id = `review_q${index}${key}`;
+                    input.disabled = true; // Disable radio button in review
+
+                    label.htmlFor = input.id;
+                    label.appendChild(input);
+                    label.appendChild(document.createTextNode(` ${q.options[key]}`));
+
+                    // Highlight correct answer and user's selection
+                    if (key === correctAnswer) {
+                        label.classList.add('correct'); // Highlight the correct option
+                    }
+                     if (key === userAnswer) {
+                         label.classList.add('selected'); // Mark what the user selected
+                         if (key !== correctAnswer) {
+                             label.classList.add('incorrect'); // Mark user's incorrect selection
+                         }
+                     }
+
+
+                    reviewOptionsDiv.appendChild(label);
+                }
+                 reviewElement.appendChild(reviewOptionsDiv);
+                 reviewDiv.appendChild(reviewElement);
+                // -----------------------------
             });
-            
-            // Display results
-            const passThreshold = Math.ceil(currentQuestions.length * 0.7); // 70% to pass
-            const passed = correctCount >= passThreshold;
-            
-            scoreDiv.innerHTML = `
-                <p>You scored ${correctCount} out of ${currentQuestions.length} (${Math.round(correctCount / currentQuestions.length * 100)}%)</p>
-                <p>${passed ? 
-                    '<span style="color:var(--correct-color)">PASSED! 🎉</span>' : 
-                    '<span style="color:var(--incorrect-color)">FAILED. Need to score at least 70% to pass.</span>'
-                }</p>
-            `;
-            
-            reviewDiv.innerHTML = reviewHtml.join('');
-            
-            // Show results section
-            resultsDiv.style.display = 'block';
-            
-            // Scroll to results
-            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+
+             // Update score display
+             resultsDiv.querySelector('.correct-count').textContent = score;
+
+             // Hide questions form, show results
+            // quizForm.style.display = 'none'; // Hide the form itself if desired, or just the button
+             submitBtn.style.display = 'none'; // Hide submit button
+             resultsDiv.style.display = 'block';
+             window.scrollTo(0, 0); // Scroll to top to see results
         }
 
-        // Get option text from letter (A, B, C, D)
-        function getAnswerText(letter, options) {
-            const index = letter.charCodeAt(0) - 65; // Convert A, B, C, D to 0, 1, 2, 3
-            return `${letter}. ${options[index]}`;
-        }
+        quizForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent default form submission
+            showResults();
+        });
 
-        // Reset the test
-        function resetTest() {
-            quizForm.reset();
-            resultsDiv.style.display = 'none';
-            loadQuestions();
-            window.scrollTo(0, 0);
-        }
+        resetBtn.addEventListener('click', () => {
+             // quizForm.style.display = 'block'; // Show form again if it was hidden
+             loadQuestions(); // Load new set of random questions
+             window.scrollTo(0, 0); // Scroll to top
+        });
 
-        // Show the study guide
-        function viewStudyGuide() {
-            testSection.style.display = 'none';
-            studyGuideDiv.style.display = 'block';
-            manualContainer.style.display = 'none';
-            
-            // Update active tab
-            testTab.classList.remove('active');
-            studyTab.classList.add('active');
-            manualTab.classList.remove('active');
-        }
+         // --- Theme Toggle ---
+         themeToggleBtn.addEventListener('click', () => {
+             document.body.classList.toggle('dark-mode');
+             // Optional: Save preference to localStorage
+             if (document.body.classList.contains('dark-mode')) {
+                 localStorage.setItem('theme', 'dark');
+                 themeToggleBtn.textContent = 'Light Mode';
+             } else {
+                 localStorage.setItem('theme', 'light');
+                  themeToggleBtn.textContent = 'Dark Mode';
+             }
+         });
 
-        // Populate the study guide with content
-        function populateStudyGuide() {
-            let html = '<h2>Mississippi Driver\'s License Study Guide (2025)</h2>';
-            
-            studyGuide.forEach(section => {
-                html += `
-                    <div class="study-section">
-                        <h3>${section.title}</h3>
-                        ${section.content}
-                    </div>
-                `;
-            });
-            
-            studyGuideDiv.innerHTML = html;
-        }
+         // Apply saved theme on load
+         const savedTheme = localStorage.getItem('theme');
+         if (savedTheme === 'dark') {
+             document.body.classList.add('dark-mode');
+              themeToggleBtn.textContent = 'Light Mode';
+         } else {
+              themeToggleBtn.textContent = 'Dark Mode'; // Default is light
+         }
 
-        // Change the theme
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-        }
+        // --- Modal Logic ---
+        studyGuideBtn.addEventListener('click', () => {
+            modal.style.display = "block";
+        });
 
-        // Show the test tab
-        function showTestTab() {
-            testSection.style.display = 'block';
-            studyGuideDiv.style.display = 'none';
-            manualContainer.style.display = 'none';
-            
-            // Update active tab
-            testTab.classList.add('active');
-            studyTab.classList.remove('active');
-            manualTab.classList.remove('active');
-        }
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = "none";
+        });
 
-        // Show the manual tab
-        function showManualTab() {
-            testSection.style.display = 'none';
-            studyGuideDiv.style.display = 'none';
-            manualContainer.style.display = 'block';
-            
-            // Update active tab
-            testTab.classList.remove('active');
-            studyTab.classList.remove('active');
-            manualTab.classList.add('active');
-        }
-
-        // Update question count
-        function updateQuestionCount(count) {
-            questionCount = parseInt(count);
-            
-            // Update active button
-            questionCountBtns.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.count == count);
-            });
-            
-            // Reload questions
-            resetTest();
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            submitBtn.addEventListener('click', submitTest);
-            shuffleBtn.addEventListener('click', shuffleQuestions);
-            resetBtn.addEventListener('click', resetTest);
-            viewStudyGuideBtn.addEventListener('click', viewStudyGuide);
-            themeToggle.addEventListener('click', toggleTheme);
-            testTab.addEventListener('click', showTestTab);
-            studyTab.addEventListener('click', viewStudyGuide);
-            manualTab.addEventListener('click', showManualTab);
-            
-            // Question count buttons
-            questionCountBtns.forEach(btn => {
-                btn.addEventListener('click', () => updateQuestionCount(btn.dataset.count));
-            });
-            
-            // Load saved theme preference
-            if (localStorage.getItem('darkMode') === 'true') {
-                document.body.classList.add('dark-mode');
+        // Close modal if user clicks outside of the modal content
+        window.addEventListener('click', (event) => {
+            if (event.target == modal) {
+                modal.style.display = "none";
             }
-        }
+        });
 
-        // Initialize on page load
-        window.addEventListener('DOMContentLoaded', init);
+
+        // Initial load
+        loadQuestions();
+
     </script>
+
 </body>
 </html>
