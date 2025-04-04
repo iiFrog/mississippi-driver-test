@@ -5,6 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mississippi Driver's Permit Test (2025)</title>
     <style>
+        /* CSS Variables for Theme Support */
+        :root {
+            --background-color: #f5f5f5;
+            --text-color: #333;
+            --container-bg: white;
+            --question-bg: #f9f9f9;
+            --question-border: #3498db;
+            --option-bg: #f0f0f0;
+            --option-hover: #e0e0e0;
+            --button-bg: #3498db;
+            --button-hover: #2980b9;
+            --results-bg: #f0f8ff;
+            --heading-color: #2c3e50;
+            --correct-color: #27ae60;
+            --incorrect-color: #e74c3c;
+            --study-guide-btn: #2ecc71;
+            --study-guide-hover: #27ae60;
+            --reset-btn: #7f8c8d;
+            --reset-hover: #95a5a6;
+            --box-shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark Mode Variables */
+        body.dark-mode {
+            --background-color: #121212;
+            --text-color: #e0e0e0;
+            --container-bg: #1e1e1e;
+            --question-bg: #2a2a2a;
+            --question-border: #3498db;
+            --option-bg: #333333;
+            --option-hover: #444444;
+            --button-bg: #2980b9;
+            --button-hover: #3498db;
+            --results-bg: #1a2733;
+            --heading-color: #82b1ff;
+            --correct-color: #00e676;
+            --incorrect-color: #ff5252;
+            --study-guide-btn: #2ecc71;
+            --study-guide-hover: #27ae60;
+            --reset-btn: #607d8b;
+            --reset-hover: #78909c;
+            --box-shadow: rgba(0, 0, 0, 0.3);
+        }
+
         /* Global Styles */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -12,29 +56,33 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
-            color: #333;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
         }
 
         h1 {
             text-align: center;
-            color: #2c3e50;
+            color: var(--heading-color);
             margin-bottom: 30px;
         }
 
         .quiz-container {
-            background-color: white;
+            background-color: var(--container-bg);
             border-radius: 10px;
             padding: 25px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px var(--box-shadow);
+            transition: background-color 0.3s, box-shadow 0.3s;
+            position: relative;
         }
 
         .question {
-            background-color: #f9f9f9;
+            background-color: var(--question-bg);
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 5px;
-            border-left: 4px solid #3498db;
+            border-left: 4px solid var(--question-border);
+            transition: background-color 0.3s;
         }
 
         .options {
@@ -45,14 +93,14 @@
             display: block;
             margin: 8px 0;
             padding: 10px;
-            background-color: #f0f0f0;
+            background-color: var(--option-bg);
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.2s;
         }
 
         label:hover {
-            background-color: #e0e0e0;
+            background-color: var(--option-hover);
         }
 
         input[type="radio"] {
@@ -61,7 +109,7 @@
         }
 
         button {
-            background-color: #3498db;
+            background-color: var(--button-bg);
             color: white;
             border: none;
             padding: 12px 24px;
@@ -74,20 +122,21 @@
         }
 
         button:hover {
-            background-color: #2980b9;
+            background-color: var(--button-hover);
         }
 
         .results {
             display: none;
-            background-color: #f0f8ff;
+            background-color: var(--results-bg);
             padding: 20px;
             border-radius: 8px;
             margin-top: 20px;
             text-align: center;
+            transition: background-color 0.3s;
         }
 
         .results h2 {
-            color: #2c3e50;
+            color: var(--heading-color);
             margin-bottom: 15px;
         }
 
@@ -103,56 +152,58 @@
         }
 
         .review-question {
-            background-color: #f9f9f9;
+            background-color: var(--question-bg);
             padding: 15px;
             margin-bottom: 15px;
             border-radius: 5px;
+            transition: background-color 0.3s;
         }
 
         .correct {
-            border-left: 4px solid #27ae60;
+            border-left: 4px solid var(--correct-color);
         }
 
         .incorrect {
-            border-left: 4px solid #e74c3c;
+            border-left: 4px solid var(--incorrect-color);
         }
 
         .correct-answer {
-            color: #27ae60;
+            color: var(--correct-color);
             font-weight: bold;
         }
 
         .wrong-answer {
-            color: #e74c3c;
+            color: var(--incorrect-color);
             text-decoration: line-through;
         }
 
         .reset-btn {
-            background-color: #7f8c8d;
+            background-color: var(--reset-btn);
         }
 
         .reset-btn:hover {
-            background-color: #95a5a6;
+            background-color: var(--reset-hover);
         }
 
         .study-guide-btn {
-            background-color: #2ecc71;
+            background-color: var(--study-guide-btn);
         }
 
         .study-guide-btn:hover {
-            background-color: #27ae60;
+            background-color: var(--study-guide-hover);
         }
 
         .study-guide {
             display: none;
-            background-color: #f9f9f9;
+            background-color: var(--question-bg);
             padding: 20px;
             border-radius: 8px;
             margin-top: 20px;
+            transition: background-color 0.3s;
         }
 
         .study-guide h2 {
-            color: #2c3e50;
+            color: var(--heading-color);
             margin-bottom: 15px;
         }
         
@@ -161,9 +212,58 @@
         }
         
         .study-section h3 {
-            color: #3498db;
-            border-bottom: 1px solid #e0e0e0;
+            color: var(--question-border);
+            border-bottom: 1px solid var(--option-bg);
             padding-bottom: 5px;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 8px 12px;
+            background-color: var(--option-bg);
+            border-radius: 30px;
+            transition: background-color 0.3s;
+            z-index: 10;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--option-hover);
+        }
+
+        .theme-toggle-track {
+            width: 40px;
+            height: 20px;
+            background-color: #aaa;
+            border-radius: 10px;
+            position: relative;
+            margin-left: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .theme-toggle-thumb {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: white;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .dark-mode .theme-toggle-track {
+            background-color: #3498db;
+        }
+
+        .dark-mode .theme-toggle-thumb {
+            transform: translateX(20px);
+            background-color: #1e1e1e;
         }
 
         @media (max-width: 600px) {
@@ -178,6 +278,12 @@
             label {
                 padding: 8px;
             }
+
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 6px 10px;
+            }
         }
     </style>
 </head>
@@ -185,6 +291,13 @@
     <h1>Mississippi Driver's Permit Test (2025)</h1>
     
     <div class="quiz-container">
+        <div class="theme-toggle" id="theme-toggle">
+            <span>Dark Mode</span>
+            <div class="theme-toggle-track">
+                <div class="theme-toggle-thumb"></div>
+            </div>
+        </div>
+
         <form id="quiz-form">
             <!-- Questions will be inserted here by JavaScript -->
         </form>
@@ -609,11 +722,27 @@
             return String.fromCharCode(65 + index);
         }
 
-        // Generate question HTML
+        // Fisher-Yates shuffle algorithm
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Generate question HTML with shuffled questions
         function generateQuestions() {
             const quizForm = document.getElementById("quiz-form");
+            quizForm.innerHTML = ""; // Clear form if regenerating
             
-            questions.forEach((q, index) => {
+            // Create a shuffled copy of the questions array
+            const shuffledQuestions = shuffleArray([...questions]);
+            
+            // Store the order of questions for scoring
+            window.questionOrder = shuffledQuestions.map(q => questions.findIndex(originalQ => originalQ.question === q.question));
+            
+            shuffledQuestions.forEach((q, index) => {
                 const questionDiv = document.createElement("div");
                 questionDiv.classList.add("question");
                 
@@ -637,6 +766,7 @@
         // Generate study guide HTML
         function generateStudyGuide() {
             const studyGuideDiv = document.getElementById("study-guide");
+            studyGuideDiv.innerHTML = ""; // Clear if regenerating
             
             studyGuide.forEach(section => {
                 const sectionDiv = document.createElement("div");
@@ -656,20 +786,22 @@
             const results = [];
             let score = 0;
             
-            questions.forEach((q, index) => {
-                const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+            window.questionOrder.forEach((originalIndex, shuffledIndex) => {
+                const selectedOption = document.querySelector(`input[name="q${shuffledIndex}"]:checked`);
                 const userAnswer = selectedOption ? selectedOption.value : null;
-                const isCorrect = userAnswer === q.answer;
+                const correctAnswer = questions[originalIndex].answer;
+                const isCorrect = userAnswer === correctAnswer;
                 
                 if (isCorrect) {
                     score++;
                 }
                 
                 results.push({
-                    question: q.question,
+                    question: questions[originalIndex].question,
                     userAnswer,
-                    correctAnswer: q.answer,
-                    isCorrect
+                    correctAnswer,
+                    isCorrect,
+                    options: questions[originalIndex].options
                 });
             });
             
@@ -704,18 +836,18 @@
                     const correctAnswerIndex = answerToIndex(result.correctAnswer);
                     
                     if (result.isCorrect) {
-                        answerText = `<p>Your answer: <span class="correct-answer">${result.userAnswer}. ${questions[index].options[userAnswerIndex]}</span> ✓</p>`;
+                        answerText = `<p>Your answer: <span class="correct-answer">${result.userAnswer}. ${result.options[userAnswerIndex]}</span> ✓</p>`;
                     } else {
                         answerText = `
-                            <p>Your answer: <span class="wrong-answer">${result.userAnswer}. ${questions[index].options[userAnswerIndex]}</span> ✗</p>
-                            <p>Correct answer: <span class="correct-answer">${result.correctAnswer}. ${questions[index].options[correctAnswerIndex]}</span></p>
+                            <p>Your answer: <span class="wrong-answer">${result.userAnswer}. ${result.options[userAnswerIndex]}</span> ✗</p>
+                            <p>Correct answer: <span class="correct-answer">${result.correctAnswer}. ${result.options[correctAnswerIndex]}</span></p>
                         `;
                     }
                 } else {
                     const correctAnswerIndex = answerToIndex(result.correctAnswer);
                     answerText = `
                         <p>You didn't answer this question.</p>
-                        <p>Correct answer: <span class="correct-answer">${result.correctAnswer}. ${questions[index].options[correctAnswerIndex]}</span></p>
+                        <p>Correct answer: <span class="correct-answer">${result.correctAnswer}. ${result.options[correctAnswerIndex]}</span></p>
                     `;
                 }
                 
@@ -731,9 +863,11 @@
 
         // Reset quiz
         function resetQuiz() {
-            document.getElementById("quiz-form").reset();
             document.getElementById("results").style.display = "none";
             document.getElementById("study-guide").style.display = "none";
+            
+            // Generate new shuffled questions
+            generateQuestions();
             
             // Scroll to top
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -750,23 +884,5 @@
             }
         }
 
-        // Initialize quiz
-        function initQuiz() {
-            generateQuestions();
-            generateStudyGuide();
-            
-            // Event listeners
-            document.getElementById("submit-btn").addEventListener("click", () => {
-                const resultsData = calculateResults();
-                displayResults(resultsData);
-            });
-            
-            document.getElementById("reset-btn").addEventListener("click", resetQuiz);
-            document.getElementById("study-guide-btn").addEventListener("click", toggleStudyGuide);
-        }
-
-        // Start the quiz when the page loads
-        window.addEventListener("load", initQuiz);
-    </script>
-</body>
-</html>
+        // Toggle dark mode
+        function toggleDarkMode() {
