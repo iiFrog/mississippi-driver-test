@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mississippi Driver's Permit Prep (2025) - Complete</title>
+    <title>Mississippi Driver's Permit Prep (2025) - Final</title>
     <style>
         /* --- Core Variables --- */
         :root {
             --background-color: #f4f7f6;
             --text-color: #333;
-            --primary-color: #007bff; /* Blue */
+            --primary-color: #007bff;
             --primary-hover: #0056b3;
-            --secondary-color: #6c757d; /* Gray */
+            --secondary-color: #6c757d;
             --secondary-hover: #5a6268;
-            --accent-color: #28a745; /* Green */
+            --accent-color: #28a745;
             --accent-hover: #218838;
-            --pdf-btn-color: #ffc107; /* Yellow for PDF */
+            --pdf-btn-color: #ffc107;
             --pdf-btn-hover: #e0a800;
             --container-bg: white;
             --card-bg: #ffffff;
@@ -27,7 +27,7 @@
             --incorrect-border: #f5c6cb;
             --incorrect-text: #721c24;
             --button-text-color: white;
-            --pdf-button-text-color: #212529; /* Darker text for yellow button */
+            --pdf-button-text-color: #212529;
             --theme-toggle-bg: #e9ecef;
             --theme-toggle-hover: #ced4da;
             --link-color: var(--primary-color);
@@ -35,20 +35,20 @@
             --timer-select-border: var(--secondary-color);
             --progress-red: var(--incorrect-text);
             --progress-green: var(--correct-text);
-            --score-red: #dc3545; /* Bootstrap danger red */
-            --score-green: #28a745; /* Bootstrap success green */
+            --score-red: #dc3545;
+            --score-green: #28a745;
         }
 
         body.dark-mode {
             --background-color: #121212;
             --text-color: #e0e0e0;
-            --primary-color: #4dabf7; /* Lighter Blue */
+            --primary-color: #4dabf7;
             --primary-hover: #74c0fc;
-            --secondary-color: #868e96; /* Lighter Gray */
+            --secondary-color: #868e96;
             --secondary-hover: #adb5bd;
-            --accent-color: #40c057; /* Lighter Green */
+            --accent-color: #40c057;
             --accent-hover: #69db7c;
-            --pdf-btn-color: #ffca2c; /* Lighter Yellow */
+            --pdf-btn-color: #ffca2c;
             --pdf-btn-hover: #ffd54f;
             --container-bg: #1e1e1e;
             --card-bg: #2a2a2a;
@@ -59,8 +59,8 @@
             --incorrect-bg: #5a2a2e;
             --incorrect-border: #723b40;
             --incorrect-text: #f5c6cb;
-            --button-text-color: #e0e0e0; /* Light text for dark buttons */
-             --pdf-button-text-color: #212529; /* Keep dark text for yellow */
+            --button-text-color: #e0e0e0;
+            --pdf-button-text-color: #212529;
             --theme-toggle-bg: #343a40;
             --theme-toggle-hover: #495057;
             --link-color: var(--primary-color);
@@ -68,385 +68,126 @@
             --timer-select-border: var(--secondary-color);
             --progress-red: var(--incorrect-text);
             --progress-green: var(--correct-text);
-             --score-red: #f5737e; /* Lighter red for dark mode */
-             --score-green: #69db7c; /* Lighter green for dark mode */
+             --score-red: #f5737e;
+             --score-green: #69db7c;
         }
 
         /* --- Global Styles --- */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            line-height: 1.6;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            padding: 20px;
-            padding-top: 70px; /* Space for fixed top controls */
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container {
-            max-width: 900px; /* Adjusted for potential sidebar */
-            margin: 0 auto;
-            background-color: var(--container-bg);
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: var(--card-shadow);
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-
-        h1, h2, h3 {
-            color: var(--primary-color);
-            margin-bottom: 1em;
-            text-align: center;
-        }
-
-        p {
-            margin-bottom: 1em;
-        }
-
-        /* General Button Styling */
-         button, .button-link {
-            display: inline-block;
-            padding: 12px 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--button-text-color);
-            background-color: var(--primary-color);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            transition: background-color 0.2s ease-in-out, transform 0.1s ease;
-            text-decoration: none; /* Remove underline from links styled as buttons */
-             vertical-align: middle; /* Align button/link text */
-         }
-
-         button:hover, .button-link:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-1px);
-         }
-
-         button:disabled {
-            background-color: var(--secondary-color);
-            cursor: not-allowed;
-            transform: none;
-         }
-
-        /* Specific Button Colors */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; line-height: 1.6; background-color: var(--background-color); color: var(--text-color); padding: 20px; padding-top: 70px; transition: background-color 0.3s, color 0.3s; }
+        .container { max-width: 950px; /* Wider for sidebar */ margin: 0 auto; background-color: var(--container-bg); border-radius: 8px; padding: 30px; box-shadow: var(--card-shadow); transition: background-color 0.3s, box-shadow 0.3s; }
+        h1, h2, h3 { color: var(--primary-color); margin-bottom: 1em; text-align: center; }
+        p { margin-bottom: 1em; }
+        button, .button-link { display: inline-block; padding: 12px 25px; font-size: 1rem; font-weight: 600; color: var(--button-text-color); background-color: var(--primary-color); border: none; border-radius: 5px; cursor: pointer; text-align: center; transition: background-color 0.2s ease-in-out, transform 0.1s ease; text-decoration: none; vertical-align: middle; }
+        button:hover, .button-link:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+        button:disabled { background-color: var(--secondary-color); cursor: not-allowed; transform: none; }
         .button-secondary { background-color: var(--secondary-color); }
         .button-secondary:hover { background-color: var(--secondary-hover); }
         .button-accent { background-color: var(--accent-color); }
         .button-accent:hover { background-color: var(--accent-hover); }
         #btn-view-pdf { background-color: var(--pdf-btn-color); color: var(--pdf-button-text-color); }
         #btn-view-pdf:hover { background-color: var(--pdf-btn-hover); color: var(--pdf-button-text-color); }
-
-        .hidden {
-            display: none !important;
-        }
+        .hidden { display: none !important; }
 
         /* --- Fixed Top Elements --- */
-        .fixed-controls {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: calc(100% - 30px);
-            pointer-events: none; /* Allow clicks through container ONLY */
-        }
-        .timer-control {
-             pointer-events: auto; /* Make this section clickable */
-        }
-        .timer-control label {
-            font-size: 0.8rem;
-            margin-right: 5px;
-            color: var(--text-color);
-            opacity: 0.8;
-        }
-        .timer-control select {
-            font-size: 0.85rem;
-            padding: 6px 8px;
-            background-color: var(--timer-select-bg);
-            color: var(--text-color);
-            border: 1px solid var(--timer-select-border);
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-        .timer-control select:hover {
-             border-color: var(--primary-color);
-        }
-        .theme-toggle-button {
-            padding: 8px 12px;
-            font-size: 0.85rem;
-            background-color: var(--theme-toggle-bg);
-            color: var(--text-color);
-            border: 1px solid var(--secondary-color);
-            border-radius: 5px;
-            cursor: pointer;
-            pointer-events: auto; /* Make button clickable */
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .theme-toggle-button:hover {
-             background-color: var(--theme-toggle-hover);
-        }
+        .fixed-controls { position: fixed; top: 15px; left: 15px; right: 15px; z-index: 1000; display: flex; justify-content: space-between; align-items: center; width: calc(100% - 30px); pointer-events: none; }
+        .timer-control { pointer-events: auto; }
+        .timer-control label { font-size: 0.8rem; margin-right: 5px; color: var(--text-color); opacity: 0.8; }
+        .timer-control select { font-size: 0.85rem; padding: 6px 8px; background-color: var(--timer-select-bg); color: var(--text-color); border: 1px solid var(--timer-select-border); border-radius: 5px; cursor: pointer; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
+        .timer-control select:hover { border-color: var(--primary-color); }
+        .theme-toggle-button { padding: 8px 12px; font-size: 0.85rem; background-color: var(--theme-toggle-bg); color: var(--text-color); border: 1px solid var(--secondary-color); border-radius: 5px; cursor: pointer; pointer-events: auto; transition: background-color 0.3s, color 0.3s; }
+        .theme-toggle-button:hover { background-color: var(--theme-toggle-hover); }
 
         /* --- Main Menu --- */
-        .main-menu {
-            text-align: center;
-            padding: 40px 0;
-        }
-        .main-menu h1 {
-            margin-bottom: 40px;
-        }
-        .menu-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-        }
-         .menu-buttons button, .menu-buttons .button-link {
-            width: 90%;
-            max-width: 320px;
-            padding: 15px 20px;
-            font-size: 1.1rem;
-            box-sizing: border-box;
-         }
-         @media (min-width: 768px) {
-             .menu-buttons {
-                 flex-direction: row;
-                 justify-content: center;
-                 flex-wrap: wrap;
-             }
-             .menu-buttons button, .menu-buttons .button-link {
-                width: auto;
-                flex-basis: calc(33.333% - 20px);
-                min-width: 180px;
-             }
-         }
-        .button-link {
-             line-height: normal;
-        }
+        .main-menu { text-align: center; padding: 40px 0; }
+        .main-menu h1 { margin-bottom: 40px; }
+        .menu-buttons { display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        .menu-buttons button, .menu-buttons .button-link { width: 90%; max-width: 320px; padding: 15px 20px; font-size: 1.1rem; box-sizing: border-box; }
+        @media (min-width: 768px) { .menu-buttons { flex-direction: row; justify-content: center; flex-wrap: wrap; } .menu-buttons button, .menu-buttons .button-link { width: auto; flex-basis: calc(33.333% - 20px); min-width: 180px; } }
+        .button-link { line-height: normal; }
 
         /* --- Study Guide --- */
-        .study-guide-entry {
-            background-color: var(--card-bg);
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: var(--card-shadow);
-            border-left: 4px solid var(--secondary-color);
-        }
+         /* NEW: Container for sticky button positioning */
+         .study-guide-container {
+             position: relative; /* Needed for sticky positioning context */
+         }
+         #study-guide-content {
+             max-height: 70vh; /* Limit height to enable scrolling */
+             overflow-y: auto; /* Add scrollbar if content overflows */
+             padding-right: 15px; /* Space for scrollbar */
+             margin-bottom: 20px; /* Space below content before button */
+         }
+        .study-guide-entry { background-color: var(--card-bg); border-radius: 5px; padding: 15px; margin-bottom: 20px; box-shadow: var(--card-shadow); border-left: 4px solid var(--secondary-color); }
         .study-guide-entry p { margin-bottom: 0.5em; }
         .study-guide-question { font-weight: bold; margin-bottom: 0.7em; }
-        .study-guide-answer {
-            color: var(--correct-text);
-            background-color: var(--correct-bg);
-            border: 1px solid var(--correct-border);
-            padding: 5px 10px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-top: 5px;
-            margin-bottom: 10px;
-        }
-        .study-guide-tip {
-            font-style: italic;
-            font-size: 0.9em;
-            color: var(--secondary-color);
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed var(--secondary-color);
-        }
-         body.dark-mode .study-guide-tip {
-             color: var(--text-color);
-             opacity: 0.8;
+        .study-guide-answer { color: var(--correct-text); background-color: var(--correct-bg); border: 1px solid var(--correct-border); padding: 5px 10px; border-radius: 4px; display: inline-block; margin-top: 5px; margin-bottom: 10px; }
+        .study-guide-tip { font-style: italic; font-size: 0.9em; color: var(--secondary-color); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--secondary-color); }
+        body.dark-mode .study-guide-tip { color: var(--text-color); opacity: 0.8; }
+         /* NEW: Sticky button container */
+         .study-guide-nav {
+             position: sticky;
+             bottom: 20px; /* Stick near bottom */
+             top: 70px; /* Stick below fixed header */
+             text-align: center; /* Center button */
+             padding: 10px 0; /* Add some padding */
+             background-color: var(--container-bg); /* Match container background */
+             z-index: 10; /* Ensure it's above scrolling content */
          }
+          /* Adjust button margin if needed */
+          .study-guide-nav button { margin-top: 0; }
+
 
         /* --- Test Options --- */
-        .test-options {
-            text-align: center;
-            padding: 30px 0;
-        }
-        .test-options h2 {
-            margin-bottom: 30px;
-        }
-        .test-options button {
-            margin: 0 10px 10px 10px;
-        }
+        .test-options { text-align: center; padding: 30px 0; }
+        .test-options h2 { margin-bottom: 30px; }
+        .test-options button { margin: 0 10px 10px 10px; }
 
         /* --- Test View --- */
-        .test-view-layout {
-             display: flex;
-             gap: 30px;
-        }
-        .test-main-area {
-             flex: 1;
-             min-width: 0;
-        }
-        .test-sidebar {
-             flex-basis: 150px;
-             flex-shrink: 0;
-             text-align: center;
-             padding-top: 10px;
-        }
-         @media (max-width: 768px) {
-             .test-view-layout {
-                 flex-direction: column;
-                 gap: 20px;
-             }
-             .test-sidebar {
-                 flex-basis: auto;
-                 padding-top: 0;
-                 margin-bottom: 20px;
-                 order: -1;
-             }
-         }
-        .question-container {
-            background-color: var(--card-bg);
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: var(--card-shadow);
-        }
-        .question-text {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        .options-list {
-            list-style: none;
-            padding: 0;
-        }
-        .options-list li {
-            background-color: var(--background-color);
-            border: 1px solid var(--secondary-color);
-            border-radius: 4px;
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s;
-        }
-        .options-list li:hover:not(.disabled) {
-            border-color: var(--primary-color);
-            background-color: color-mix(in srgb, var(--background-color) 80%, var(--primary-color) 20%);
-        }
-        .options-list li.correct {
-            background-color: var(--correct-bg) !important;
-            border-color: var(--correct-border) !important;
-            color: var(--correct-text) !important;
-            font-weight: bold;
-            cursor: default;
-        }
-        .options-list li.incorrect {
-            background-color: var(--incorrect-bg) !important;
-            border-color: var(--incorrect-border) !important;
-            color: var(--incorrect-text) !important;
-            font-weight: bold;
-            cursor: default;
-        }
-        .options-list li.show-correct {
-             border: 2px solid var(--correct-text) !important;
-             background-color: color-mix(in srgb, var(--correct-bg) 90%, black 10%) !important;
-        }
-        .options-list li.disabled {
-            cursor: default;
-            opacity: 0.7;
-        }
-        .progress-container {
-             text-align: center;
-             margin-bottom: 20px;
-        }
-        .progress-indicator {
-            font-weight: bold;
-            color: var(--secondary-color);
-            font-size: 1rem;
-        }
-        .percentage-indicator {
-            font-size: 0.9rem;
-            font-weight: normal;
-            margin-top: 2px;
-        }
+        .test-view-layout { display: flex; gap: 30px; }
+        .test-main-area { flex: 1; min-width: 0; display: flex; flex-direction: column; } /* Make main area a flex column */
+        .test-sidebar { flex-basis: 160px; /* Slightly wider for score */ flex-shrink: 0; text-align: center; padding-top: 10px; display: block; /* Ensure it's displayed */ }
+        #question-area { flex-grow: 1; } /* Allow question area to take vertical space */
+        @media (max-width: 768px) { .test-view-layout { flex-direction: column; gap: 20px; } .test-sidebar { flex-basis: auto; padding-top: 0; margin-bottom: 20px; order: -1; } }
+        .question-container { background-color: var(--card-bg); border-radius: 5px; padding: 20px; margin-bottom: 20px; box-shadow: var(--card-shadow); }
+        .question-text { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; }
+        .options-list { list-style: none; padding: 0; }
+        .options-list li { background-color: var(--background-color); border: 1px solid var(--secondary-color); border-radius: 4px; padding: 12px 15px; margin-bottom: 10px; cursor: pointer; transition: background-color 0.2s, border-color 0.2s; }
+        .options-list li:hover:not(.disabled) { border-color: var(--primary-color); background-color: color-mix(in srgb, var(--background-color) 80%, var(--primary-color) 20%); }
+        .options-list li.correct { background-color: var(--correct-bg) !important; border-color: var(--correct-border) !important; color: var(--correct-text) !important; font-weight: bold; cursor: default; }
+        .options-list li.incorrect { background-color: var(--incorrect-bg) !important; border-color: var(--incorrect-border) !important; color: var(--incorrect-text) !important; font-weight: bold; cursor: default; }
+        .options-list li.show-correct { border: 2px solid var(--correct-text) !important; background-color: color-mix(in srgb, var(--correct-bg) 90%, black 10%) !important; }
+        .options-list li.disabled { cursor: default; opacity: 0.7; }
+        .progress-container { text-align: center; margin-bottom: 20px; }
+        .progress-indicator { font-weight: bold; color: var(--secondary-color); font-size: 1rem; }
+        .percentage-indicator { font-size: 0.9rem; font-weight: normal; margin-top: 2px; }
         .percentage-indicator.low-score { color: var(--progress-red); }
         .percentage-indicator.high-score { color: var(--progress-green); }
-        .feedback-message {
-            text-align: center;
-            margin-top: 15px;
-            font-weight: bold;
-            min-height: 1.2em;
-        }
+        .feedback-message { text-align: center; margin-top: 15px; font-weight: bold; min-height: 1.2em; }
         .feedback-message.correct { color: var(--correct-text); }
         .feedback-message.incorrect { color: var(--incorrect-text); }
-        .navigation-buttons {
-            text-align: center;
-            margin-top: 25px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+        .navigation-buttons { text-align: center; margin-top: auto; /* Push buttons to bottom */ padding-top: 25px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
         .navigation-buttons button { margin: 0; }
-        .live-score-counter {
-             font-size: 2.5rem;
-             font-weight: bold;
-             line-height: 1.1;
-             color: var(--text-color);
-        }
-        .live-score-counter .score-value {
-            transition: color 0.3s ease-in-out;
-        }
+        .live-score-counter { font-size: 2.8rem; /* Even larger */ font-weight: bold; line-height: 1.1; color: var(--text-color); margin-top: 20px; /* Add space above */ display: block; /* Ensure display */ }
+        .live-score-counter .score-value { transition: color 0.3s ease-in-out; }
         .live-score-counter .score-value.low-score { color: var(--score-red); }
         .live-score-counter .score-value.high-score { color: var(--score-green); }
-        .live-score-label {
-             font-size: 0.9rem;
-             color: var(--secondary-color);
-             display: block;
-             margin-top: 5px;
-        }
+        .live-score-label { font-size: 0.9rem; color: var(--secondary-color); display: block; margin-top: 5px; }
 
         /* --- Results View --- */
-        .results-view {
-            text-align: center;
-            padding: 30px;
-        }
-        .final-score {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
+        .results-view { text-align: center; padding: 30px; }
+        .final-score { font-size: 1.8rem; font-weight: bold; margin-bottom: 20px; }
         .final-score .correct-count { color: var(--accent-color); }
         .final-score .total-count { color: var(--text-color); }
-        .score-message {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-        }
+        .score-message { font-size: 1.1rem; margin-bottom: 30px; }
 
         /* --- Responsive --- */
          @media (max-width: 600px) {
-             body {
-                 padding: 10px;
-                 padding-top: 60px;
-             }
-             .container {
-                 padding: 15px;
-                 max-width: 100%;
-             }
-             .fixed-controls {
-                 top: 10px;
-                 left: 10px;
-                 right: 10px;
-                 width: calc(100% - 20px);
-             }
+             body { padding: 10px; padding-top: 60px; }
+             .container { padding: 15px; max-width: 100%; }
+             .fixed-controls { top: 10px; left: 10px; right: 10px; width: calc(100% - 20px); }
              .timer-control label { display: none; }
              .timer-control select { font-size: 0.8rem; padding: 4px 6px;}
-              .theme-toggle-button { padding: 6px 10px; font-size: 0.75rem; }
+             .theme-toggle-button { padding: 6px 10px; font-size: 0.75rem; }
              h1 { font-size: 1.6rem; }
              h2 { font-size: 1.3rem; }
              button, .button-link { padding: 10px 20px; font-size: 0.9rem; }
@@ -454,13 +195,15 @@
              .options-list li { padding: 10px 12px; }
              .final-score { font-size: 1.5rem; }
              .test-sidebar { margin-bottom: 30px; }
-             .live-score-counter { font-size: 2rem; }
+             .live-score-counter { font-size: 2.2rem; }
+             /* Adjust study guide scroll height */
+             #study-guide-content { max-height: 60vh; }
+             .study-guide-nav { bottom: 10px; } /* Stick closer to bottom */
          }
-         /* Medium screen breakpoint */
          @media (min-width: 601px) and (max-width: 768px) {
               .container { max-width: 95%; }
-              .test-sidebar { flex-basis: 120px; } /* Slightly smaller sidebar */
-              .live-score-counter { font-size: 2rem; }
+              .test-sidebar { flex-basis: 140px; }
+              .live-score-counter { font-size: 2.2rem; }
          }
 
     </style>
@@ -493,11 +236,10 @@
              </div>
         </div>
 
-        <div id="study-guide-view" class="hidden">
-             <h2>Study Guide</h2>
+        <div id="study-guide-view" class="hidden study-guide-container"> <h2>Study Guide</h2>
              <div id="study-guide-content">
                  </div>
-             <div style="text-align: center; margin-top: 30px;">
+             <div class="study-guide-nav">
                   <button id="btn-back-to-menu-sg" class="button-secondary">Back to Menu</button>
              </div>
         </div>
@@ -649,7 +391,7 @@
         }
 
         function populateStudyGuide() {
-             studyGuideContent.innerHTML = ''; // Clear previous
+             studyGuideContent.innerHTML = '';
              allQuestions.forEach(q => {
                  const entry = document.createElement('div');
                  entry.classList.add('study-guide-entry');
@@ -680,154 +422,104 @@
             quizQuestions = shuffled.slice(0, selectedTestLength);
             currentQuestionIndex = 0;
             score = 0;
-
-            // Initialize Live Score Counter
-            liveScoreValue.textContent = score; // Set initial score to 0
-            liveScoreTotal.textContent = quizQuestions.length; // Set total questions
-            liveScoreValue.className = 'score-value low-score'; // Default to low score color initially
-
-            // Initialize Question Percentage Indicator
+            liveScoreValue.textContent = score;
+            liveScoreTotal.textContent = quizQuestions.length;
+            liveScoreValue.className = 'score-value low-score';
             percentageIndicator.textContent = `(0% Correct)`;
             percentageIndicator.className = 'percentage-indicator low-score';
-
-
-            switchView('test-view'); // Switch view *after* initializing elements
-            displayQuestion(); // Display the first question
-            // Hide buttons initially, handle visibility in displayQuestion/handleOptionClick
+            switchView('test-view');
+            displayQuestion();
             nextQuestionBtn.classList.add('hidden');
             finishQuizBtn.classList.add('hidden');
-            quitQuizBtn.classList.remove('hidden'); // Ensure Quit is visible
+            quitQuizBtn.classList.remove('hidden');
         }
 
         function displayQuestion() {
-            // Clear any pending timer
             if (autoAdvanceTimeout) { clearTimeout(autoAdvanceTimeout); autoAdvanceTimeout = null; }
-
-            // Check if quiz is finished
             if (currentQuestionIndex >= quizQuestions.length) { showResults(); return; }
-
             const question = quizQuestions[currentQuestionIndex];
-
-            // Update Question Progress Indicator (X / Y)
             progressIndicator.textContent = `Question ${currentQuestionIndex + 1} / ${quizQuestions.length}`;
-
-            // Update Question Percentage Indicator based on score BEFORE this question
              const questionsAttemptedSoFar = currentQuestionIndex;
              let currentPercentage = 0;
-             if (questionsAttemptedSoFar > 0) {
-                 currentPercentage = Math.round((score / questionsAttemptedSoFar) * 100);
-             } else {
-                 currentPercentage = 0; // Handle first question case
-             }
+             if (questionsAttemptedSoFar > 0) { currentPercentage = Math.round((score / questionsAttemptedSoFar) * 100); }
              percentageIndicator.textContent = `(${currentPercentage}% Correct)`;
-             // Color code percentage indicator
              if (currentPercentage < 50) { percentageIndicator.className = 'percentage-indicator low-score'; }
              else { percentageIndicator.className = 'percentage-indicator high-score'; }
-
-            // Display current question text and options
             questionText.textContent = question.question;
-            optionsList.innerHTML = ''; // Clear previous options
-            feedbackMessage.textContent = ''; // Clear previous feedback
-            feedbackMessage.className = 'feedback-message'; // Reset feedback class
-            // Hide action buttons until answer is selected
+            optionsList.innerHTML = '';
+            feedbackMessage.textContent = '';
+            feedbackMessage.className = 'feedback-message';
             nextQuestionBtn.classList.add('hidden');
             finishQuizBtn.classList.add('hidden');
-
-            // Create list items for options
             for (const key in question.options) {
                 const li = document.createElement('li');
                 li.textContent = question.options[key];
-                li.dataset.key = key; // Store option key (a, b, c, d)
-                li.addEventListener('click', handleOptionClick); // Add click listener
+                li.dataset.key = key;
+                li.addEventListener('click', handleOptionClick);
                 optionsList.appendChild(li);
             }
-            quitQuizBtn.disabled = false; // Ensure quit button is enabled
+            quitQuizBtn.disabled = false;
         }
 
         function handleOptionClick(event) {
-            // Clear timer if user clicks manually before it fires
             if (autoAdvanceTimeout) { clearTimeout(autoAdvanceTimeout); autoAdvanceTimeout = null; }
-
             const selectedLi = event.target;
             const selectedKey = selectedLi.dataset.key;
             const question = quizQuestions[currentQuestionIndex];
             const correctKey = question.answer;
-
-            // Disable all options after one is clicked
             const allOptions = optionsList.querySelectorAll('li');
             allOptions.forEach(li => {
                 li.removeEventListener('click', handleOptionClick);
                 li.classList.add('disabled');
-                // Highlight the actual correct answer if user was wrong
-                if (selectedKey !== correctKey && li.dataset.key === correctKey) {
-                    li.classList.add('show-correct');
-                }
+                if (selectedKey !== correctKey && li.dataset.key === correctKey) { li.classList.add('show-correct'); }
             });
-
-            // Provide feedback & update score
             if (selectedKey === correctKey) {
                 selectedLi.classList.add('correct');
                 feedbackMessage.textContent = "Correct!";
                 feedbackMessage.className = 'feedback-message correct';
-                score++; // Increment score ONLY if correct
+                score++;
             } else {
                 selectedLi.classList.add('incorrect');
                 feedbackMessage.textContent = `Incorrect. The correct answer was: ${question.options[correctKey]}`;
                 feedbackMessage.className = 'feedback-message incorrect';
             }
-
-            // Update Live Score Counter (Correct / Total) and its Color
-            liveScoreValue.textContent = score; // Update the displayed score
-            const scorePercentage = (score / quizQuestions.length) * 100; // Calculate percentage of TOTAL
-            if (scorePercentage < 50) {
-                 liveScoreValue.className = 'score-value low-score'; // Set class for red
-            } else {
-                 liveScoreValue.className = 'score-value high-score'; // Set class for green
-            }
-
-            // Update Question Percentage Indicator based on questions attempted *including this one*
+            liveScoreValue.textContent = score;
+            const scorePercentage = (score / quizQuestions.length) * 100;
+            if (scorePercentage < 50) { liveScoreValue.className = 'score-value low-score'; }
+            else { liveScoreValue.className = 'score-value high-score'; }
              const currentPercentage = Math.round((score / (currentQuestionIndex + 1)) * 100);
              percentageIndicator.textContent = `(${currentPercentage}% Correct)`;
              if (currentPercentage < 50) { percentageIndicator.className = 'percentage-indicator low-score'; }
              else { percentageIndicator.className = 'percentage-indicator high-score'; }
-
-            // Determine next action (Next Question or Show Results)
             const isLastQuestion = currentQuestionIndex >= quizQuestions.length - 1;
             const nextAction = isLastQuestion ? showResults : nextQuestion;
-
-            // Handle Auto-Advance or show manual button
             if (autoAdvanceDelay === 'none') {
-                // Show 'Next' or 'Finish' button for manual advance
-                 if (isLastQuestion) { finishQuizBtn.classList.remove('hidden'); }
-                 else { nextQuestionBtn.classList.remove('hidden'); }
+                if (isLastQuestion) { finishQuizBtn.classList.remove('hidden'); }
+                else { nextQuestionBtn.classList.remove('hidden'); }
             } else if (autoAdvanceDelay === 'instant') {
-                // Advance almost immediately after short feedback delay
-                 autoAdvanceTimeout = setTimeout(nextAction, 250); // Slightly longer delay
+                autoAdvanceTimeout = setTimeout(nextAction, 250);
             } else {
-                 // Start timer for 3s or 5s
-                 autoAdvanceTimeout = setTimeout(nextAction, parseInt(autoAdvanceDelay));
+                autoAdvanceTimeout = setTimeout(nextAction, parseInt(autoAdvanceDelay));
             }
-            quitQuizBtn.disabled = true; // Disable quit button once an answer is selected
+            quitQuizBtn.disabled = true;
         }
 
         function nextQuestion() {
             currentQuestionIndex++;
-            displayQuestion(); // Display the next question
+            displayQuestion();
         }
 
         function showResults() {
-            correctCountSpan.textContent = score; // Final score correct
-            totalCountSpan.textContent = quizQuestions.length; // Final score total
+            correctCountSpan.textContent = score;
+            totalCountSpan.textContent = quizQuestions.length;
             const percentage = quizQuestions.length > 0 ? Math.round((score / quizQuestions.length) * 100) : 0;
-            // Set final message based on score
             if (percentage >= 80) { scoreMessage.textContent = "Great job! You passed."; }
             else if (percentage >= 60) { scoreMessage.textContent = "Good effort, but review the material more."; }
             else { scoreMessage.textContent = "Looks like you need more practice. Keep studying!"; }
-            switchView('results-view'); // Switch to the results display
+            switchView('results-view');
         }
 
         function shuffleArray(array) {
-            // Standard Fisher-Yates shuffle algorithm
              for (let i = array.length - 1; i > 0; i--) {
                  const j = Math.floor(Math.random() * (i + 1));
                  [array[i], array[j]] = [array[j], array[i]];
@@ -835,7 +527,6 @@
         }
 
         // --- Event Listeners ---
-        // Theme toggle listener
         themeToggleBtn.addEventListener('click', () => {
              document.body.classList.toggle('dark-mode');
              const isDarkMode = document.body.classList.contains('dark-mode');
@@ -843,34 +534,31 @@
              themeToggleBtn.textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
         });
 
-        // Timer dropdown listener
          timerSelect.addEventListener('change', (e) => {
              autoAdvanceDelay = e.target.value;
              localStorage.setItem('timerSetting', autoAdvanceDelay);
-             // If quiz is active, hide/show next button based on new setting
-             if (currentView === 'test-view' && !nextQuestionBtn.classList.contains('hidden') && autoAdvanceDelay !== 'none') {
-                  nextQuestionBtn.classList.add('hidden'); // Hide if timer activated
-             }
-              if (currentView === 'test-view' && nextQuestionBtn.classList.contains('hidden') && autoAdvanceDelay === 'none' && feedbackMessage.textContent !== ''){
-                 // Check if feedback is shown, meaning question is answered but timer was on
-                 if(currentQuestionIndex < quizQuestions.length - 1) {
-                     nextQuestionBtn.classList.remove('hidden'); // Show next button if timer turned off mid-quiz after answering
+             if (currentView === 'test-view') { // Only affect button if test is active
+                 const questionAnswered = !optionsList.querySelector('li:not(.disabled)'); // Check if question was already answered
+                 if (autoAdvanceDelay === 'none') {
+                     // If timer turned off AND question is answered, show manual button
+                     if (questionAnswered) {
+                         if (currentQuestionIndex < quizQuestions.length - 1) { nextQuestionBtn.classList.remove('hidden'); }
+                         else { finishQuizBtn.classList.remove('hidden'); }
+                     }
                  } else {
-                     finishQuizBtn.classList.remove('hidden'); // Show finish button if last question
+                     // If timer turned on, hide manual buttons
+                     nextQuestionBtn.classList.add('hidden');
+                     finishQuizBtn.classList.add('hidden');
                  }
              }
          });
 
-        // Main menu navigation
         document.getElementById('btn-study-guide').addEventListener('click', () => { populateStudyGuide(); switchView('study-guide-view'); });
         document.getElementById('btn-take-test').addEventListener('click', () => switchView('test-options'));
-
-        // Back button navigation
         document.getElementById('btn-back-to-menu-sg').addEventListener('click', () => switchView('main-menu'));
         document.getElementById('btn-back-to-menu-to').addEventListener('click', () => switchView('main-menu'));
         document.getElementById('btn-back-to-menu-results').addEventListener('click', () => switchView('main-menu'));
 
-        // Test length selection
         testOptions.querySelectorAll('button[data-length]').forEach(button => {
             button.addEventListener('click', (e) => {
                 const length = parseInt(e.target.dataset.length, 10);
@@ -878,31 +566,24 @@
             });
         });
 
-        // Test navigation buttons
-        nextQuestionBtn.addEventListener('click', nextQuestion); // Manual next
-        finishQuizBtn.addEventListener('click', showResults); // Manual finish
-        quitQuizBtn.addEventListener('click', () => { // Quit button
+        nextQuestionBtn.addEventListener('click', nextQuestion);
+        finishQuizBtn.addEventListener('click', showResults);
+        quitQuizBtn.addEventListener('click', () => {
             if (confirm("Are you sure you want to quit the quiz? Your progress will be lost.")) {
                 switchView('main-menu');
             }
         });
-        // Retry button on results page
         document.getElementById('btn-retry-quiz').addEventListener('click', () => {
-            startQuiz(selectedTestLength); // Restart with same length
+            startQuiz(selectedTestLength);
         });
 
         // --- Initial Load ---
-        // Apply saved theme preference
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') { document.body.classList.add('dark-mode'); themeToggleBtn.textContent = 'Light Mode'; }
         else { themeToggleBtn.textContent = 'Dark Mode'; }
-
-        // Apply saved timer preference
-         const savedTimer = localStorage.getItem('timerSetting');
-         if (savedTimer && ['none', 'instant', '3000', '5000'].includes(savedTimer)) { timerSelect.value = savedTimer; autoAdvanceDelay = savedTimer; }
-         else { timerSelect.value = 'none'; autoAdvanceDelay = 'none'; }
-
-        // Start application at the main menu
+        const savedTimer = localStorage.getItem('timerSetting');
+        if (savedTimer && ['none', 'instant', '3000', '5000'].includes(savedTimer)) { timerSelect.value = savedTimer; autoAdvanceDelay = savedTimer; }
+        else { timerSelect.value = 'none'; autoAdvanceDelay = 'none'; }
         switchView('main-menu');
 
     </script>
