@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mississippi Driver's Permit Prep (2025)</title>
+    <title>Mississippi Driver's Permit Prep (2025) - Final</title>
     <style>
         /* --- Core Variables --- */
         :root {
@@ -15,6 +15,8 @@
             --secondary-hover: #5a6268;
             --accent-color: #28a745; /* Green */
             --accent-hover: #218838;
+            --pdf-btn-color: #ffc107; /* Yellow for PDF */
+            --pdf-btn-hover: #e0a800;
             --container-bg: white;
             --card-bg: #ffffff;
             --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -25,6 +27,7 @@
             --incorrect-border: #f5c6cb;
             --incorrect-text: #721c24;
             --button-text-color: white;
+            --pdf-button-text-color: #212529; /* Darker text for yellow button */
             --theme-toggle-bg: #e9ecef;
             --theme-toggle-hover: #ced4da;
             --link-color: var(--primary-color);
@@ -39,6 +42,8 @@
             --secondary-hover: #adb5bd;
             --accent-color: #40c057; /* Lighter Green */
             --accent-hover: #69db7c;
+            --pdf-btn-color: #ffca2c; /* Lighter Yellow */
+            --pdf-btn-hover: #ffd54f;
             --container-bg: #1e1e1e;
             --card-bg: #2a2a2a;
             --card-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
@@ -48,7 +53,8 @@
             --incorrect-bg: #5a2a2e;
             --incorrect-border: #723b40;
             --incorrect-text: #f5c6cb;
-            --button-text-color: #121212; /* Dark text on light buttons */
+            --button-text-color: #e0e0e0; /* Light text for dark buttons */
+             --pdf-button-text-color: #212529; /* Keep dark text for yellow */
             --theme-toggle-bg: #343a40;
             --theme-toggle-hover: #495057;
             --link-color: var(--primary-color);
@@ -91,8 +97,9 @@
             margin-bottom: 1em;
         }
 
-        button {
-            display: inline-block; /* Allows setting width/padding */
+        /* General Button Styling */
+         button, .button-link {
+            display: inline-block;
             padding: 12px 25px;
             font-size: 1rem;
             font-weight: 600;
@@ -103,31 +110,35 @@
             cursor: pointer;
             text-align: center;
             transition: background-color 0.2s ease-in-out, transform 0.1s ease;
-            text-decoration: none; /* For button-like links */
-        }
+            text-decoration: none; /* Remove underline from links styled as buttons */
+             vertical-align: middle; /* Align button/link text */
+         }
 
-        button:hover {
+         button:hover, .button-link:hover {
             background-color: var(--primary-hover);
             transform: translateY(-1px);
-        }
+         }
 
-        button:disabled {
+         button:disabled {
             background-color: var(--secondary-color);
             cursor: not-allowed;
             transform: none;
-        }
-
-        .button-secondary {
-            background-color: var(--secondary-color);
-        }
-        .button-secondary:hover {
-            background-color: var(--secondary-hover);
-        }
-         .button-accent {
-             background-color: var(--accent-color);
          }
-         .button-accent:hover {
-             background-color: var(--accent-hover);
+
+
+        /* Specific Button Colors */
+        .button-secondary { background-color: var(--secondary-color); }
+        .button-secondary:hover { background-color: var(--secondary-hover); }
+        .button-accent { background-color: var(--accent-color); }
+        .button-accent:hover { background-color: var(--accent-hover); }
+        /* PDF Button Specific Style */
+         #btn-view-pdf {
+             background-color: var(--pdf-btn-color);
+             color: var(--pdf-button-text-color); /* Specific text color for PDF button */
+         }
+         #btn-view-pdf:hover {
+             background-color: var(--pdf-btn-hover);
+             color: var(--pdf-button-text-color);
          }
 
         .hidden {
@@ -142,7 +153,7 @@
             padding: 8px 12px;
             font-size: 0.85rem;
             background-color: var(--theme-toggle-bg);
-            color: var(--text-color); /* Use text color for better contrast */
+            color: var(--text-color);
             border: 1px solid var(--secondary-color);
             border-radius: 5px;
             z-index: 1000;
@@ -163,23 +174,26 @@
         }
         .menu-buttons {
             display: flex;
-            flex-direction: column; /* Stack vertically on small screens */
+            flex-direction: column; /* Stack vertically first */
             gap: 20px;
             align-items: center;
         }
-        .menu-buttons button {
-            width: 80%;
-            max-width: 300px; /* Limit button width */
+         .menu-buttons button, .menu-buttons .button-link {
+            width: 90%; /* More width on mobile */
+            max-width: 320px; /* Slightly wider max */
             padding: 15px 20px;
             font-size: 1.1rem;
-        }
-         @media (min-width: 600px) {
+         }
+         @media (min-width: 768px) { /* Adjust breakpoint for 3 buttons */
              .menu-buttons {
                  flex-direction: row; /* Side by side on larger screens */
                  justify-content: center;
+                 flex-wrap: wrap; /* Allow wrapping if needed */
              }
-             .menu-buttons button {
+             .menu-buttons button, .menu-buttons .button-link {
                 width: auto; /* Adjust width automatically */
+                flex-basis: calc(33% - 20px); /* Approx 1/3 width minus gap */
+                min-width: 180px; /* Ensure buttons don't get too small */
              }
          }
 
@@ -201,18 +215,23 @@
             border: 1px solid var(--correct-border);
             padding: 5px 10px;
             border-radius: 4px;
-            display: inline-block; /* Fit content */
+            display: inline-block;
             margin-top: 5px;
             margin-bottom: 10px;
         }
         .study-guide-tip {
             font-style: italic;
             font-size: 0.9em;
-            color: var(--secondary-color);
+            color: var(--secondary-color); /* Use secondary color for tips */
             margin-top: 10px;
             padding-top: 10px;
             border-top: 1px dashed var(--secondary-color);
         }
+         body.dark-mode .study-guide-tip {
+             color: var(--text-color); /* Improve tip visibility in dark mode */
+             opacity: 0.8;
+         }
+
 
         /* --- Test Options --- */
         .test-options {
@@ -258,24 +277,23 @@
         }
         /* Feedback Styles */
         .options-list li.correct {
-            background-color: var(--correct-bg);
-            border-color: var(--correct-border);
-            color: var(--correct-text);
+            background-color: var(--correct-bg) !important; /* Ensure override */
+            border-color: var(--correct-border) !important;
+            color: var(--correct-text) !important;
             font-weight: bold;
             cursor: default;
         }
         .options-list li.incorrect {
-            background-color: var(--incorrect-bg);
-            border-color: var(--incorrect-border);
-            color: var(--incorrect-text);
+            background-color: var(--incorrect-bg) !important; /* Ensure override */
+            border-color: var(--incorrect-border) !important;
+            color: var(--incorrect-text) !important;
             font-weight: bold;
             cursor: default;
         }
         /* Style for showing correct answer when user was wrong */
         .options-list li.show-correct {
-             background-color: var(--correct-bg);
-             border-color: var(--correct-border);
-             color: var(--correct-text);
+             border: 2px solid var(--correct-text) !important; /* Add border to correct */
+             background-color: color-mix(in srgb, var(--correct-bg) 90%, black 10%) !important; /* Slightly different bg */
         }
 
         .options-list li.disabled {
@@ -292,13 +310,19 @@
              text-align: center;
              margin-top: 15px;
              font-weight: bold;
+             min-height: 1.2em; /* Prevent layout shift */
         }
          .feedback-message.correct { color: var(--correct-text); }
          .feedback-message.incorrect { color: var(--incorrect-text); }
         .navigation-buttons {
             text-align: center;
             margin-top: 25px;
+            display: flex; /* Use flexbox for better button alignment */
+            justify-content: center;
+            gap: 15px; /* Space between buttons */
+            flex-wrap: wrap;
         }
+         .navigation-buttons button { margin: 0; } /* Remove auto margin */
 
         /* --- Results View --- */
         .results-view {
@@ -334,11 +358,11 @@
               }
              h1 { font-size: 1.6rem; }
              h2 { font-size: 1.3rem; }
-             button {
+             button, .button-link {
                  padding: 10px 20px;
                  font-size: 0.9rem;
              }
-              .main-menu button { font-size: 1rem; }
+              .menu-buttons button, .menu-buttons .button-link { font-size: 1rem; }
              .options-list li { padding: 10px 12px; }
              .final-score { font-size: 1.5rem; }
          }
@@ -351,12 +375,14 @@
 
     <div class="container">
 
-        <div id="main-menu" class="main-menu">
-            <h1>Mississippi Driver's Permit Prep</h1>
+        <div id="main-menu" class="main-menu"> <h1>Mississippi Driver's Permit Prep</h1>
             <div class="menu-buttons">
                 <button id="btn-study-guide" class="button-accent">Study Guide</button>
                 <button id="btn-take-test">Take a Practice Test</button>
-                </div>
+                <a href="1.15.2025 Revised MDPS Driver's Manual.pdf" target="_blank" id="btn-view-pdf" class="button-link">
+                    View Driver's Manual (PDF)
+                </a>
+            </div>
         </div>
 
         <div id="study-guide-view" class="hidden">
@@ -382,10 +408,9 @@
             <div id="question-area">
                  <div class="question-container">
                     <div class="question-text" id="question-text">Loading question...</div>
-                    <ul class="options-list" id="options-list">
-                        </ul>
-                     <div class="feedback-message" id="feedback-message"></div>
-                </div>
+                    <ul class="options-list" id="options-list"></ul>
+                    <div class="feedback-message" id="feedback-message"></div>
+                 </div>
             </div>
              <div class="navigation-buttons">
                  <button id="next-question-btn" class="hidden">Next Question</button>
@@ -402,7 +427,7 @@
             <p class="score-message" id="score-message">Keep studying!</p>
              <div class="navigation-buttons">
                 <button id="btn-retry-quiz" class="button-accent">Try Again (Same Length)</button>
-                 <button id="btn-back-to-menu-results" class="button-secondary">Back to Menu</button>
+                <button id="btn-back-to-menu-results" class="button-secondary">Back to Menu</button>
             </div>
         </div>
 
@@ -418,17 +443,16 @@
         const progressIndicator = document.getElementById('progress');
         const questionText = document.getElementById('question-text');
         const optionsList = document.getElementById('options-list');
-         const feedbackMessage = document.getElementById('feedback-message');
+        const feedbackMessage = document.getElementById('feedback-message');
         const nextQuestionBtn = document.getElementById('next-question-btn');
-         const finishQuizBtn = document.getElementById('finish-quiz-btn');
-         const quitQuizBtn = document.getElementById('quit-quiz-btn');
-         const correctCountSpan = document.getElementById('correct-count');
-         const totalCountSpan = document.getElementById('total-count');
-         const scoreMessage = document.getElementById('score-message');
+        const finishQuizBtn = document.getElementById('finish-quiz-btn');
+        const quitQuizBtn = document.getElementById('quit-quiz-btn');
+        const correctCountSpan = document.getElementById('correct-count');
+        const totalCountSpan = document.getElementById('total-count');
+        const scoreMessage = document.getElementById('score-message');
 
-        // --- Data ---
-         const allQuestions = [
-            // ** Adding Memory Tips based on manual content analysis **
+        // --- Data (Questions remain the same) ---
+        const allQuestions = [
             { question: "Under Mississippi law, when must you have a valid Driver's License or Learner's Permit?", options: { a: "Only when driving on interstates", b: "Only when driving outside city limits", c: "To operate any motor vehicle (except road/farm equipment) on streets or highways", d: "Only if you are under 21 years old" }, answer: "c", tip: "Think 'any vehicle, any public road' requires a license." },
             { question: "If you move to Mississippi, you must obtain a Mississippi driver's license within how many days?", options: { a: "30 days", b: "60 days", c: "90 days", d: "6 months" }, answer: "b", tip: "You get 2 months (60 days) to switch your license." },
             { question: "If you move to Mississippi, you must obtain a Mississippi license plate/tag within how many days?", options: { a: "30 days", b: "60 days", c: "90 days", d: "Immediately" }, answer: "a", tip: "Plates need changing faster than licenses - just 1 month (30 days)." },
@@ -471,74 +495,71 @@
         ];
 
         // --- State Variables ---
-        let currentView = 'main-menu'; // 'main-menu', 'study-guide', 'test-options', 'test', 'results'
+        let currentView = 'main-menu'; // Default view state
         let quizQuestions = [];
         let currentQuestionIndex = 0;
         let score = 0;
         let selectedTestLength = 0;
 
-        // --- Functions ---
+        // --- Functions (remain largely the same) ---
         function switchView(viewId) {
+             // Hide all views first
             mainMenu.classList.add('hidden');
             studyGuideView.classList.add('hidden');
             testOptions.classList.add('hidden');
             testView.classList.add('hidden');
             resultsView.classList.add('hidden');
 
+             // Show the requested view
             const viewToShow = document.getElementById(viewId);
             if (viewToShow) {
                 viewToShow.classList.remove('hidden');
                 currentView = viewId;
-                 window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-                console.error("View not found:", viewId);
-                 mainMenu.classList.remove('hidden'); // Default back to main menu
+                 console.error("View not found:", viewId);
+                 mainMenu.classList.remove('hidden'); // Fallback to main menu
                  currentView = 'main-menu';
             }
         }
 
         function populateStudyGuide() {
-            studyGuideContent.innerHTML = ''; // Clear previous
+            studyGuideContent.innerHTML = '';
             allQuestions.forEach(q => {
                 const entry = document.createElement('div');
                 entry.classList.add('study-guide-entry');
-
-                 const questionP = document.createElement('p');
-                 questionP.classList.add('study-guide-question');
-                 questionP.textContent = q.question;
-                 entry.appendChild(questionP);
-
-                 const answerP = document.createElement('p');
-                 const answerSpan = document.createElement('span');
-                 answerSpan.classList.add('study-guide-answer');
-                 // Find the text of the correct answer
-                 answerSpan.textContent = `Answer: ${q.options[q.answer]}`;
-                 answerP.appendChild(answerSpan);
-                 entry.appendChild(answerP);
-
-                 if (q.tip) {
-                     const tipP = document.createElement('p');
-                     tipP.classList.add('study-guide-tip');
-                     tipP.textContent = `Memory Tip: ${q.tip}`;
-                     entry.appendChild(tipP);
-                 }
-
+                const questionP = document.createElement('p');
+                questionP.classList.add('study-guide-question');
+                questionP.textContent = q.question;
+                entry.appendChild(questionP);
+                const answerP = document.createElement('p');
+                const answerSpan = document.createElement('span');
+                answerSpan.classList.add('study-guide-answer');
+                answerSpan.textContent = `Answer: ${q.options[q.answer]}`;
+                answerP.appendChild(answerSpan);
+                entry.appendChild(answerP);
+                if (q.tip) {
+                    const tipP = document.createElement('p');
+                    tipP.classList.add('study-guide-tip');
+                    tipP.textContent = `Memory Tip: ${q.tip}`;
+                    entry.appendChild(tipP);
+                }
                 studyGuideContent.appendChild(entry);
             });
         }
 
         function startQuiz(numQuestions) {
             selectedTestLength = numQuestions;
-             let shuffled = [...allQuestions];
-             shuffleArray(shuffled);
-             quizQuestions = shuffled.slice(0, selectedTestLength);
-             currentQuestionIndex = 0;
-             score = 0;
-             switchView('test-view');
-             displayQuestion();
-             nextQuestionBtn.classList.add('hidden'); // Hide until answer selected
-             finishQuizBtn.classList.add('hidden');
-             quitQuizBtn.classList.remove('hidden');
+            let shuffled = [...allQuestions];
+            shuffleArray(shuffled);
+            quizQuestions = shuffled.slice(0, selectedTestLength);
+            currentQuestionIndex = 0;
+            score = 0;
+            switchView('test-view'); // Switch to test view
+            displayQuestion();
+            nextQuestionBtn.classList.add('hidden');
+            finishQuizBtn.classList.add('hidden');
+            quitQuizBtn.classList.remove('hidden');
         }
 
         function displayQuestion() {
@@ -546,25 +567,23 @@
                 showResults();
                 return;
             }
-
             const question = quizQuestions[currentQuestionIndex];
             progressIndicator.textContent = `Question ${currentQuestionIndex + 1} of ${quizQuestions.length}`;
             questionText.textContent = question.question;
-            optionsList.innerHTML = ''; // Clear previous options
-             feedbackMessage.textContent = ''; // Clear feedback
-             feedbackMessage.className = 'feedback-message'; // Reset feedback class
-             nextQuestionBtn.classList.add('hidden'); // Hide Next button initially
-             finishQuizBtn.classList.add('hidden');
+            optionsList.innerHTML = '';
+            feedbackMessage.textContent = '';
+            feedbackMessage.className = 'feedback-message';
+            nextQuestionBtn.classList.add('hidden');
+            finishQuizBtn.classList.add('hidden');
 
-            // Create options
             for (const key in question.options) {
                 const li = document.createElement('li');
                 li.textContent = question.options[key];
-                li.dataset.key = key; // Store option key (a, b, c, d)
+                li.dataset.key = key;
                 li.addEventListener('click', handleOptionClick);
                 optionsList.appendChild(li);
             }
-             quitQuizBtn.disabled = false; // Enable quit button
+            quitQuizBtn.disabled = false;
         }
 
         function handleOptionClick(event) {
@@ -573,19 +592,15 @@
             const question = quizQuestions[currentQuestionIndex];
             const correctKey = question.answer;
 
-             // Disable all options after one is clicked
-             const allOptions = optionsList.querySelectorAll('li');
-             allOptions.forEach(li => {
-                 li.removeEventListener('click', handleOptionClick); // Remove listener
-                 li.classList.add('disabled'); // Visually disable
-                 // Highlight the actual correct answer if user was wrong
-                 if (selectedKey !== correctKey && li.dataset.key === correctKey) {
-                     li.classList.add('show-correct');
-                 }
-             });
+            const allOptions = optionsList.querySelectorAll('li');
+            allOptions.forEach(li => {
+                li.removeEventListener('click', handleOptionClick);
+                li.classList.add('disabled');
+                if (selectedKey !== correctKey && li.dataset.key === correctKey) {
+                    li.classList.add('show-correct'); // Highlight correct if wrong choice
+                }
+            });
 
-
-            // Provide feedback
             if (selectedKey === correctKey) {
                 selectedLi.classList.add('correct');
                 feedbackMessage.textContent = "Correct!";
@@ -597,36 +612,29 @@
                 feedbackMessage.className = 'feedback-message incorrect';
             }
 
-            // Show Next or Finish button
-             if (currentQuestionIndex < quizQuestions.length - 1) {
-                 nextQuestionBtn.classList.remove('hidden');
-             } else {
-                 finishQuizBtn.classList.remove('hidden');
-             }
-             quitQuizBtn.disabled = true; // Disable quit once answered
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                nextQuestionBtn.classList.remove('hidden');
+            } else {
+                finishQuizBtn.classList.remove('hidden');
+            }
+            quitQuizBtn.disabled = true;
         }
 
-         function nextQuestion() {
-             currentQuestionIndex++;
-             displayQuestion();
-         }
+        function nextQuestion() {
+            currentQuestionIndex++;
+            displayQuestion();
+        }
 
         function showResults() {
             correctCountSpan.textContent = score;
             totalCountSpan.textContent = quizQuestions.length;
-
             const percentage = quizQuestions.length > 0 ? (score / quizQuestions.length) * 100 : 0;
-            if (percentage >= 80) {
-                scoreMessage.textContent = "Great job! You passed.";
-            } else if (percentage >= 60) {
-                scoreMessage.textContent = "Good effort, but review the material more.";
-            } else {
-                scoreMessage.textContent = "Looks like you need more practice. Keep studying!";
-            }
-            switchView('results-view');
+            if (percentage >= 80) { scoreMessage.textContent = "Great job! You passed."; }
+            else if (percentage >= 60) { scoreMessage.textContent = "Good effort, but review the material more."; }
+            else { scoreMessage.textContent = "Looks like you need more practice. Keep studying!"; }
+            switchView('results-view'); // Switch to results view
         }
 
-        // Utility to shuffle array
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -635,8 +643,6 @@
         }
 
         // --- Event Listeners ---
-
-        // Theme Toggle
         themeToggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
             const isDarkMode = document.body.classList.contains('dark-mode');
@@ -644,20 +650,17 @@
             themeToggleBtn.textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
         });
 
-        // Main Menu Buttons
         document.getElementById('btn-study-guide').addEventListener('click', () => {
-            populateStudyGuide(); // Load content before showing
+            populateStudyGuide();
             switchView('study-guide-view');
         });
         document.getElementById('btn-take-test').addEventListener('click', () => switchView('test-options'));
 
         // Back to Menu Buttons
-         document.getElementById('btn-back-to-menu-sg').addEventListener('click', () => switchView('main-menu'));
-         document.getElementById('btn-back-to-menu-to').addEventListener('click', () => switchView('main-menu'));
-         document.getElementById('btn-back-to-menu-results').addEventListener('click', () => switchView('main-menu'));
+        document.getElementById('btn-back-to-menu-sg').addEventListener('click', () => switchView('main-menu'));
+        document.getElementById('btn-back-to-menu-to').addEventListener('click', () => switchView('main-menu'));
+        document.getElementById('btn-back-to-menu-results').addEventListener('click', () => switchView('main-menu'));
 
-
-        // Test Options Buttons
         testOptions.querySelectorAll('button[data-length]').forEach(button => {
             button.addEventListener('click', (e) => {
                 const length = parseInt(e.target.dataset.length, 10);
@@ -665,21 +668,18 @@
             });
         });
 
-         // Test Navigation Buttons
-         nextQuestionBtn.addEventListener('click', nextQuestion);
-         finishQuizBtn.addEventListener('click', showResults);
-         quitQuizBtn.addEventListener('click', () => {
-             if (confirm("Are you sure you want to quit the quiz? Your progress will be lost.")) {
-                 switchView('main-menu');
-             }
-         });
-         document.getElementById('btn-retry-quiz').addEventListener('click', () => {
-             startQuiz(selectedTestLength); // Restart with the same number of questions
-         });
-
+        nextQuestionBtn.addEventListener('click', nextQuestion);
+        finishQuizBtn.addEventListener('click', showResults);
+        quitQuizBtn.addEventListener('click', () => {
+            if (confirm("Are you sure you want to quit the quiz? Your progress will be lost.")) {
+                switchView('main-menu');
+            }
+        });
+        document.getElementById('btn-retry-quiz').addEventListener('click', () => {
+            startQuiz(selectedTestLength);
+        });
 
         // --- Initial Load ---
-        // Apply saved theme
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             document.body.classList.add('dark-mode');
@@ -688,8 +688,8 @@
             themeToggleBtn.textContent = 'Dark Mode';
         }
 
-        // Start at main menu
-        switchView('main-menu');
+        // **CRITICAL FIX: Ensure main menu is shown on initial load**
+        switchView('main-menu'); // Explicitly set the view after all functions are defined.
 
     </script>
 
