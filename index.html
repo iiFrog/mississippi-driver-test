@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mississippi Driver's Permit Prep (2025) - Complete</title>
+    <title>Mississippi Driver's Permit Prep (2025) - Final Features</title>
     <style>
-        /* --- Core Variables --- */
+        /* --- Core Variables (mostly unchanged) --- */
         :root {
             --background-color: #f4f7f6;
             --text-color: #333;
@@ -31,6 +31,10 @@
             --theme-toggle-bg: #e9ecef;
             --theme-toggle-hover: #ced4da;
             --link-color: var(--primary-color);
+            --timer-select-bg: var(--theme-toggle-bg);
+            --timer-select-border: var(--secondary-color);
+            --progress-red: var(--incorrect-text);
+            --progress-green: var(--correct-text);
         }
 
         body.dark-mode {
@@ -58,187 +62,99 @@
             --theme-toggle-bg: #343a40;
             --theme-toggle-hover: #495057;
             --link-color: var(--primary-color);
+            --timer-select-bg: var(--theme-toggle-bg);
+            --timer-select-border: var(--secondary-color);
+            --progress-red: var(--incorrect-text);
+            --progress-green: var(--correct-text);
         }
 
-        /* --- Global Styles --- */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            line-height: 1.6;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            padding: 20px;
-            padding-top: 70px; /* Space for fixed theme toggle */
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: var(--container-bg);
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: var(--card-shadow);
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-
-        h1, h2, h3 {
-            color: var(--primary-color);
-            margin-bottom: 1em;
-            text-align: center;
-        }
-
-        p {
-            margin-bottom: 1em;
-        }
-
-        /* General Button Styling */
-         button, .button-link {
-            display: inline-block;
-            padding: 12px 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--button-text-color);
-            background-color: var(--primary-color);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            transition: background-color 0.2s ease-in-out, transform 0.1s ease;
-            text-decoration: none; /* Remove underline from links styled as buttons */
-             vertical-align: middle; /* Align button/link text */
-         }
-
-         button:hover, .button-link:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-1px);
-         }
-
-         button:disabled {
-            background-color: var(--secondary-color);
-            cursor: not-allowed;
-            transform: none;
-         }
-
-
-        /* Specific Button Colors */
+        /* --- Global Styles (mostly unchanged) --- */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; line-height: 1.6; background-color: var(--background-color); color: var(--text-color); padding: 20px; padding-top: 70px; transition: background-color 0.3s, color 0.3s; }
+        .container { max-width: 800px; margin: 0 auto; background-color: var(--container-bg); border-radius: 8px; padding: 30px; box-shadow: var(--card-shadow); transition: background-color 0.3s, box-shadow 0.3s; }
+        h1, h2, h3 { color: var(--primary-color); margin-bottom: 1em; text-align: center; }
+        p { margin-bottom: 1em; }
+        button, .button-link { display: inline-block; padding: 12px 25px; font-size: 1rem; font-weight: 600; color: var(--button-text-color); background-color: var(--primary-color); border: none; border-radius: 5px; cursor: pointer; text-align: center; transition: background-color 0.2s ease-in-out, transform 0.1s ease; text-decoration: none; vertical-align: middle; }
+        button:hover, .button-link:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+        button:disabled { background-color: var(--secondary-color); cursor: not-allowed; transform: none; }
         .button-secondary { background-color: var(--secondary-color); }
         .button-secondary:hover { background-color: var(--secondary-hover); }
         .button-accent { background-color: var(--accent-color); }
         .button-accent:hover { background-color: var(--accent-hover); }
-        /* PDF Button Specific Style */
-         #btn-view-pdf { /* Targeting the <a> link specifically */
-             background-color: var(--pdf-btn-color);
-             color: var(--pdf-button-text-color); /* Specific text color */
-         }
-         #btn-view-pdf:hover {
-             background-color: var(--pdf-btn-hover);
-             color: var(--pdf-button-text-color);
-         }
+        #btn-view-pdf { background-color: var(--pdf-btn-color); color: var(--pdf-button-text-color); }
+        #btn-view-pdf:hover { background-color: var(--pdf-btn-hover); color: var(--pdf-button-text-color); }
+        .hidden { display: none !important; }
 
-        .hidden {
-            display: none !important;
-        }
-
-        /* --- Theme Toggle --- */
-        .theme-toggle-button {
+        /* --- Fixed Top Elements --- */
+        .fixed-controls {
             position: fixed;
             top: 15px;
-            right: 15px;
+            left: 15px; /* Timer on the left */
+            right: 15px; /* Theme toggle on the right */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: calc(100% - 30px); /* Full width minus padding */
+            pointer-events: none; /* Allow clicks through the container */
+        }
+
+        /* Timer Select */
+        .timer-control label {
+            font-size: 0.8rem;
+            margin-right: 5px;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        .timer-control select {
+            font-size: 0.85rem;
+            padding: 6px 8px;
+            background-color: var(--timer-select-bg);
+            color: var(--text-color);
+            border: 1px solid var(--timer-select-border);
+            border-radius: 5px;
+            cursor: pointer;
+            pointer-events: auto; /* Make select clickable */
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        .timer-control select:hover {
+             border-color: var(--primary-color);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle-button {
+            /* Position handled by flex justify-content */
             padding: 8px 12px;
             font-size: 0.85rem;
             background-color: var(--theme-toggle-bg);
             color: var(--text-color);
             border: 1px solid var(--secondary-color);
             border-radius: 5px;
-            z-index: 1000;
             cursor: pointer;
+            pointer-events: auto; /* Make button clickable */
             transition: background-color 0.3s, color 0.3s;
         }
         .theme-toggle-button:hover {
              background-color: var(--theme-toggle-hover);
         }
 
-        /* --- Main Menu --- */
-        .main-menu {
-            text-align: center;
-            padding: 40px 0;
-        }
-        .main-menu h1 {
-            margin-bottom: 40px;
-        }
-        .menu-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-        }
-         .menu-buttons button, .menu-buttons .button-link { /* Apply to both button and styled link */
-            width: 90%;
-            max-width: 320px;
-            padding: 15px 20px;
-            font-size: 1.1rem;
-            box-sizing: border-box; /* Ensure padding included in width */
-         }
-         @media (min-width: 768px) {
-             .menu-buttons {
-                 flex-direction: row;
-                 justify-content: center;
-                 flex-wrap: wrap;
-             }
-             .menu-buttons button, .menu-buttons .button-link {
-                width: auto;
-                flex-basis: calc(33.333% - 20px); /* Adjust for 3 buttons */
-                min-width: 180px;
-             }
-         }
-         /* Ensure consistent appearance */
-        .button-link {
-             line-height: normal; /* Align text better */
-        }
+        /* --- Main Menu (unchanged styling) --- */
+        .main-menu { text-align: center; padding: 40px 0; }
+        .main-menu h1 { margin-bottom: 40px; }
+        .menu-buttons { display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        .menu-buttons button, .menu-buttons .button-link { width: 90%; max-width: 320px; padding: 15px 20px; font-size: 1.1rem; box-sizing: border-box; }
+        @media (min-width: 768px) { .menu-buttons { flex-direction: row; justify-content: center; flex-wrap: wrap; } .menu-buttons button, .menu-buttons .button-link { width: auto; flex-basis: calc(33.333% - 20px); min-width: 180px; } }
+        .button-link { line-height: normal; }
 
-
-        /* --- Study Guide --- */
-        .study-guide-entry {
-            background-color: var(--card-bg);
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: var(--card-shadow);
-            border-left: 4px solid var(--secondary-color);
-        }
+        /* --- Study Guide (unchanged styling) --- */
+        .study-guide-entry { background-color: var(--card-bg); border-radius: 5px; padding: 15px; margin-bottom: 20px; box-shadow: var(--card-shadow); border-left: 4px solid var(--secondary-color); }
         .study-guide-entry p { margin-bottom: 0.5em; }
         .study-guide-question { font-weight: bold; margin-bottom: 0.7em; }
-        .study-guide-answer {
-            color: var(--correct-text);
-            background-color: var(--correct-bg);
-            border: 1px solid var(--correct-border);
-            padding: 5px 10px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-top: 5px;
-            margin-bottom: 10px;
-        }
-        .study-guide-tip {
-            font-style: italic;
-            font-size: 0.9em;
-            color: var(--secondary-color);
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed var(--secondary-color);
-        }
-         body.dark-mode .study-guide-tip {
-             color: var(--text-color);
-             opacity: 0.8;
-         }
+        .study-guide-answer { color: var(--correct-text); background-color: var(--correct-bg); border: 1px solid var(--correct-border); padding: 5px 10px; border-radius: 4px; display: inline-block; margin-top: 5px; margin-bottom: 10px; }
+        .study-guide-tip { font-style: italic; font-size: 0.9em; color: var(--secondary-color); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--secondary-color); }
+        body.dark-mode .study-guide-tip { color: var(--text-color); opacity: 0.8; }
 
-
-        /* --- Test Options --- */
+        /* --- Test Options (unchanged styling) --- */
         .test-options { text-align: center; padding: 30px 0; }
         .test-options h2 { margin-bottom: 30px; }
         .test-options button { margin: 0 10px 10px 10px; }
@@ -253,25 +169,47 @@
         .options-list li.incorrect { background-color: var(--incorrect-bg) !important; border-color: var(--incorrect-border) !important; color: var(--incorrect-text) !important; font-weight: bold; cursor: default; }
         .options-list li.show-correct { border: 2px solid var(--correct-text) !important; background-color: color-mix(in srgb, var(--correct-bg) 90%, black 10%) !important; }
         .options-list li.disabled { cursor: default; opacity: 0.7; }
-        .progress-indicator { text-align: center; font-weight: bold; margin-bottom: 20px; color: var(--secondary-color); }
+
+        /* Updated Progress Indicator */
+        .progress-container {
+             text-align: center;
+             margin-bottom: 20px;
+        }
+        .progress-indicator {
+            font-weight: bold;
+            color: var(--secondary-color);
+            font-size: 1rem;
+        }
+         .percentage-indicator {
+             font-size: 0.9rem;
+             font-weight: normal;
+             margin-top: 2px;
+         }
+         .percentage-indicator.low-score { color: var(--progress-red); }
+         .percentage-indicator.high-score { color: var(--progress-green); }
+
+
         .feedback-message { text-align: center; margin-top: 15px; font-weight: bold; min-height: 1.2em; }
         .feedback-message.correct { color: var(--correct-text); }
         .feedback-message.incorrect { color: var(--incorrect-text); }
         .navigation-buttons { text-align: center; margin-top: 25px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
         .navigation-buttons button { margin: 0; }
 
-        /* --- Results View --- */
+        /* --- Results View (unchanged styling) --- */
         .results-view { text-align: center; padding: 30px; }
         .final-score { font-size: 1.8rem; font-weight: bold; margin-bottom: 20px; }
         .final-score .correct-count { color: var(--accent-color); }
         .final-score .total-count { color: var(--text-color); }
         .score-message { font-size: 1.1rem; margin-bottom: 30px; }
 
-        /* --- Responsive --- */
+        /* --- Responsive (mostly unchanged) --- */
          @media (max-width: 600px) {
              body { padding: 10px; padding-top: 60px; }
              .container { padding: 15px; }
-              .theme-toggle-button { top: 10px; right: 10px; padding: 6px 10px; font-size: 0.75rem; }
+             .fixed-controls { top: 10px; left: 10px; right: 10px; width: calc(100% - 20px); }
+             .timer-control label { display: none; } /* Hide label on small screens */
+             .timer-control select { font-size: 0.8rem; padding: 4px 6px;}
+              .theme-toggle-button { padding: 6px 10px; font-size: 0.75rem; }
              h1 { font-size: 1.6rem; }
              h2 { font-size: 1.3rem; }
              button, .button-link { padding: 10px 20px; font-size: 0.9rem; }
@@ -283,8 +221,19 @@
     </style>
 </head>
 <body>
+    <div class="fixed-controls">
+         <div class="timer-control">
+             <label for="timer-select">Auto-Advance:</label>
+             <select id="timer-select">
+                 <option value="none">No Timer</option>
+                 <option value="instant">Instant</option>
+                 <option value="3000">3 Second Delay</option>
+                 <option value="5000">5 Second Delay</option>
+             </select>
+         </div>
+        <button class="theme-toggle-button" id="theme-toggle">Toggle Theme</button>
+    </div>
 
-    <button class="theme-toggle-button" id="theme-toggle">Toggle Theme</button>
 
     <div class="container">
 
@@ -317,7 +266,10 @@
         </div>
 
         <div id="test-view" class="hidden">
-            <div class="progress-indicator" id="progress"></div>
+             <div class="progress-container">
+                 <div class="progress-indicator" id="progress">Question 1 / X</div>
+                 <div class="percentage-indicator" id="percentage">(0% Correct)</div>
+             </div>
             <div id="question-area">
                  <div class="question-container">
                     <div class="question-text" id="question-text"></div>
@@ -345,8 +297,9 @@
         </div>
 
     </div><script>
-        // --- DOM Elements (remain the same) ---
+        // --- DOM Elements ---
         const themeToggleBtn = document.getElementById('theme-toggle');
+        const timerSelect = document.getElementById('timer-select'); // Timer dropdown
         const mainMenu = document.getElementById('main-menu');
         const studyGuideView = document.getElementById('study-guide-view');
         const testOptions = document.getElementById('test-options');
@@ -354,6 +307,7 @@
         const resultsView = document.getElementById('results-view');
         const studyGuideContent = document.getElementById('study-guide-content');
         const progressIndicator = document.getElementById('progress');
+        const percentageIndicator = document.getElementById('percentage'); // Percentage display
         const questionText = document.getElementById('question-text');
         const optionsList = document.getElementById('options-list');
         const feedbackMessage = document.getElementById('feedback-message');
@@ -407,20 +361,29 @@
             { question: "What is one of the leading causes of accidents mentioned in the manual?", options: { a: "Poor road conditions", b: "Vehicle malfunctions", c: "Distracted driving", d: "Bad weather" }, answer: "c", tip: "Distracted driving (like texting) is a MAJOR cause of crashes." }
         ];
 
-        // --- State Variables (remain the same) ---
+        // --- State Variables ---
         let currentView = 'main-menu';
         let quizQuestions = [];
         let currentQuestionIndex = 0;
         let score = 0;
         let selectedTestLength = 0;
+        let autoAdvanceDelay = 'none'; // 'none', 'instant', 3000, 5000
+        let autoAdvanceTimeout = null; // To store setTimeout ID
 
-        // --- Functions (remain the same) ---
+        // --- Functions ---
         function switchView(viewId) {
             mainMenu.classList.add('hidden');
             studyGuideView.classList.add('hidden');
             testOptions.classList.add('hidden');
             testView.classList.add('hidden');
             resultsView.classList.add('hidden');
+
+            // Clear any pending auto-advance timers when switching views
+            if (autoAdvanceTimeout) {
+                clearTimeout(autoAdvanceTimeout);
+                autoAdvanceTimeout = null;
+            }
+
             const viewToShow = document.getElementById(viewId);
             if (viewToShow) {
                 viewToShow.classList.remove('hidden');
@@ -467,23 +430,50 @@
             score = 0;
             switchView('test-view');
             displayQuestion();
+            // Next/Finish buttons initially hidden, controlled by timer/manual click
             nextQuestionBtn.classList.add('hidden');
             finishQuizBtn.classList.add('hidden');
             quitQuizBtn.classList.remove('hidden');
         }
 
         function displayQuestion() {
+             // Clear previous timer if any (e.g., if user quit then restarted)
+             if (autoAdvanceTimeout) {
+                 clearTimeout(autoAdvanceTimeout);
+                 autoAdvanceTimeout = null;
+             }
+
             if (currentQuestionIndex >= quizQuestions.length) {
-                showResults(); return;
+                showResults();
+                return;
             }
+
             const question = quizQuestions[currentQuestionIndex];
-            progressIndicator.textContent = `Question ${currentQuestionIndex + 1} of ${quizQuestions.length}`;
+
+             // Update Progress Indicator
+             progressIndicator.textContent = `Question ${currentQuestionIndex + 1} / ${quizQuestions.length}`;
+             // Calculate percentage based on *questions attempted so far* (current index)
+             const questionsAttempted = currentQuestionIndex;
+             let currentPercentage = 0;
+             if (questionsAttempted > 0) {
+                 currentPercentage = Math.round((score / questionsAttempted) * 100);
+             }
+             percentageIndicator.textContent = `(${currentPercentage}% Correct)`;
+             // Color code percentage
+             if (currentPercentage < 50) {
+                 percentageIndicator.className = 'percentage-indicator low-score';
+             } else {
+                 percentageIndicator.className = 'percentage-indicator high-score';
+             }
+
+
             questionText.textContent = question.question;
             optionsList.innerHTML = '';
             feedbackMessage.textContent = '';
             feedbackMessage.className = 'feedback-message';
-            nextQuestionBtn.classList.add('hidden');
+            nextQuestionBtn.classList.add('hidden'); // Hide by default
             finishQuizBtn.classList.add('hidden');
+
             for (const key in question.options) {
                 const li = document.createElement('li');
                 li.textContent = question.options[key];
@@ -495,10 +485,18 @@
         }
 
         function handleOptionClick(event) {
+             // Clear timer just in case user clicks manually before it fires
+             if (autoAdvanceTimeout) {
+                 clearTimeout(autoAdvanceTimeout);
+                 autoAdvanceTimeout = null;
+             }
+
             const selectedLi = event.target;
             const selectedKey = selectedLi.dataset.key;
             const question = quizQuestions[currentQuestionIndex];
             const correctKey = question.answer;
+            let wasCorrect = false;
+
             const allOptions = optionsList.querySelectorAll('li');
             allOptions.forEach(li => {
                 li.removeEventListener('click', handleOptionClick);
@@ -507,22 +505,48 @@
                     li.classList.add('show-correct');
                 }
             });
+
             if (selectedKey === correctKey) {
                 selectedLi.classList.add('correct');
                 feedbackMessage.textContent = "Correct!";
                 feedbackMessage.className = 'feedback-message correct';
                 score++;
+                 wasCorrect = true;
             } else {
                 selectedLi.classList.add('incorrect');
                 feedbackMessage.textContent = `Incorrect. The correct answer was: ${question.options[correctKey]}`;
                 feedbackMessage.className = 'feedback-message incorrect';
             }
-            if (currentQuestionIndex < quizQuestions.length - 1) {
-                nextQuestionBtn.classList.remove('hidden');
+
+             // Update percentage *after* scoring the current question
+             const currentPercentage = Math.round((score / (currentQuestionIndex + 1)) * 100);
+             percentageIndicator.textContent = `(${currentPercentage}% Correct)`;
+             if (currentPercentage < 50) {
+                 percentageIndicator.className = 'percentage-indicator low-score';
+             } else {
+                 percentageIndicator.className = 'percentage-indicator high-score';
+             }
+
+
+            // Determine next action based on timer setting
+            const isLastQuestion = currentQuestionIndex >= quizQuestions.length - 1;
+            const nextAction = isLastQuestion ? showResults : nextQuestion;
+
+            if (autoAdvanceDelay === 'none') {
+                // Show manual 'Next' or 'Finish' button
+                 if (isLastQuestion) {
+                     finishQuizBtn.classList.remove('hidden');
+                 } else {
+                     nextQuestionBtn.classList.remove('hidden');
+                 }
+            } else if (autoAdvanceDelay === 'instant') {
+                // Advance almost immediately (short delay for feedback visibility)
+                 autoAdvanceTimeout = setTimeout(nextAction, 200); // 200ms delay
             } else {
-                finishQuizBtn.classList.remove('hidden');
+                 // Start timer for 3s or 5s
+                 autoAdvanceTimeout = setTimeout(nextAction, parseInt(autoAdvanceDelay));
             }
-            quitQuizBtn.disabled = true;
+             quitQuizBtn.disabled = true; // Disable quit once answered
         }
 
         function nextQuestion() {
@@ -533,7 +557,7 @@
         function showResults() {
             correctCountSpan.textContent = score;
             totalCountSpan.textContent = quizQuestions.length;
-            const percentage = quizQuestions.length > 0 ? (score / quizQuestions.length) * 100 : 0;
+            const percentage = quizQuestions.length > 0 ? Math.round((score / quizQuestions.length) * 100) : 0;
             if (percentage >= 80) { scoreMessage.textContent = "Great job! You passed."; }
             else if (percentage >= 60) { scoreMessage.textContent = "Good effort, but review the material more."; }
             else { scoreMessage.textContent = "Looks like you need more practice. Keep studying!"; }
@@ -547,7 +571,7 @@
             }
         }
 
-        // --- Event Listeners (remain the same) ---
+        // --- Event Listeners ---
         themeToggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
             const isDarkMode = document.body.classList.contains('dark-mode');
@@ -555,16 +579,29 @@
             themeToggleBtn.textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
         });
 
+        // Timer Select Change
+         timerSelect.addEventListener('change', (e) => {
+             autoAdvanceDelay = e.target.value;
+             localStorage.setItem('timerSetting', autoAdvanceDelay);
+             // If a quiz is in progress and timer is activated, hide the next button
+             if (currentView === 'test-view' && autoAdvanceDelay !== 'none') {
+                 nextQuestionBtn.classList.add('hidden');
+                 finishQuizBtn.classList.add('hidden');
+             }
+         });
+
+        // Main Menu Navigation
         document.getElementById('btn-study-guide').addEventListener('click', () => {
-            populateStudyGuide();
-            switchView('study-guide-view');
+            populateStudyGuide(); switchView('study-guide-view');
         });
         document.getElementById('btn-take-test').addEventListener('click', () => switchView('test-options'));
 
+        // Back Button Navigation
         document.getElementById('btn-back-to-menu-sg').addEventListener('click', () => switchView('main-menu'));
         document.getElementById('btn-back-to-menu-to').addEventListener('click', () => switchView('main-menu'));
         document.getElementById('btn-back-to-menu-results').addEventListener('click', () => switchView('main-menu'));
 
+        // Test Setup
         testOptions.querySelectorAll('button[data-length]').forEach(button => {
             button.addEventListener('click', (e) => {
                 const length = parseInt(e.target.dataset.length, 10);
@@ -572,6 +609,7 @@
             });
         });
 
+        // Test Controls
         nextQuestionBtn.addEventListener('click', nextQuestion);
         finishQuizBtn.addEventListener('click', showResults);
         quitQuizBtn.addEventListener('click', () => {
@@ -583,7 +621,8 @@
             startQuiz(selectedTestLength);
         });
 
-        // --- Initial Load (remains the same) ---
+        // --- Initial Load ---
+        // Apply saved theme
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             document.body.classList.add('dark-mode');
@@ -591,8 +630,17 @@
         } else {
             themeToggleBtn.textContent = 'Dark Mode';
         }
+         // Apply saved timer setting
+         const savedTimer = localStorage.getItem('timerSetting');
+         if (savedTimer && ['none', 'instant', '3000', '5000'].includes(savedTimer)) {
+             timerSelect.value = savedTimer;
+             autoAdvanceDelay = savedTimer;
+         } else {
+             timerSelect.value = 'none'; // Default
+             autoAdvanceDelay = 'none';
+         }
 
-        // Ensure main menu is shown on initial load
+        // Start at main menu
         switchView('main-menu');
 
     </script>
