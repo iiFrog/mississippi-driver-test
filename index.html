@@ -25,6 +25,8 @@
             --reset-btn: #7f8c8d;
             --reset-hover: #95a5a6;
             --box-shadow: rgba(0, 0, 0, 0.1);
+            --selector-bg: #ecf0f1;
+            --selector-border: #bdc3c7;
         }
 
         /* Dark Mode Variables */
@@ -47,6 +49,8 @@
             --reset-btn: #607d8b;
             --reset-hover: #78909c;
             --box-shadow: rgba(0, 0, 0, 0.3);
+            --selector-bg: #2c3e50;
+            --selector-border: #34495e;
         }
 
         /* Global Styles */
@@ -122,6 +126,47 @@
         }
 
         button:hover {
+            background-color: var(--button-hover);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .button-group button {
+            margin: 0;
+        }
+
+        .question-count-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .question-count-btn {
+            padding: 8px 16px;
+            background-color: var(--option-bg);
+            border: 1px solid var(--selector-border);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .question-count-btn.active {
+            background-color: var(--button-bg);
+            color: white;
+        }
+
+        .question-count-btn:hover {
+            background-color: var(--option-hover);
+        }
+
+        .question-count-btn.active:hover {
             background-color: var(--button-hover);
         }
 
@@ -217,6 +262,20 @@
             padding-bottom: 5px;
         }
 
+        .manual-container {
+            display: none;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px var(--box-shadow);
+        }
+
+        .manual-container iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+
         /* Theme Toggle Button */
         .theme-toggle {
             position: absolute;
@@ -266,6 +325,29 @@
             background-color: #1e1e1e;
         }
 
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            background-color: var(--option-bg);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        .tab-button.active {
+            background-color: var(--button-bg);
+            color: white;
+        }
+
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -284,6 +366,18 @@
                 right: 10px;
                 padding: 6px 10px;
             }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .question-count-selector {
+                flex-wrap: wrap;
+            }
+            
+            .manual-container iframe {
+                height: 400px;
+            }
         }
     </style>
 </head>
@@ -298,28 +392,51 @@
             </div>
         </div>
 
-        <form id="quiz-form">
-            <!-- Questions will be inserted here by JavaScript -->
-        </form>
-        
-        <button id="submit-btn" type="button">Submit Test</button>
-        
-        <div id="results" class="results">
-            <h2>Test Results</h2>
-            <div id="score" class="result-count"></div>
-            <div id="review" class="review-container"></div>
-            <button id="reset-btn" class="reset-btn" type="button">Retake Test</button>
-            <button id="study-guide-btn" class="study-guide-btn" type="button">View Study Guide</button>
+        <div class="tab-buttons">
+            <button id="test-tab" class="tab-button active">Practice Test</button>
+            <button id="study-tab" class="tab-button">Study Guide</button>
+            <button id="manual-tab" class="tab-button">Driver's Manual</button>
+        </div>
+
+        <div id="test-section">
+            <div class="question-count-selector">
+                <button class="question-count-btn" data-count="10">10 Questions</button>
+                <button class="question-count-btn" data-count="20">20 Questions</button>
+                <button class="question-count-btn active" data-count="30">30 Questions</button>
+                <button class="question-count-btn" data-count="50">50 Questions</button>
+            </div>
+            
+            <form id="quiz-form">
+                <!-- Questions will be inserted here by JavaScript -->
+            </form>
+            
+            <div class="button-group">
+                <button id="submit-btn" type="button">Submit Test</button>
+                <button id="shuffle-btn" type="button">Shuffle Questions</button>
+            </div>
+            
+            <div id="results" class="results">
+                <h2>Test Results</h2>
+                <div id="score" class="result-count"></div>
+                <div id="review" class="review-container"></div>
+                <div class="button-group">
+                    <button id="reset-btn" class="reset-btn" type="button">Retake Test</button>
+                    <button id="view-study-guide-btn" class="study-guide-btn" type="button">View Study Guide</button>
+                </div>
+            </div>
         </div>
 
         <div id="study-guide" class="study-guide">
-            <h2>Study Guide</h2>
             <!-- Study guide content will be inserted here by JavaScript -->
+        </div>
+
+        <div id="manual-container" class="manual-container">
+            <iframe id="manual-iframe" src="1.15.2025 Revised MDPS Driver's Manual.pdf" frameborder="0"></iframe>
         </div>
     </div>
 
     <script>
-        // Test questions data
+        // Test questions data - Updated with accurate information from the 2025 manual
         const questions = [
             {
                 question: "What is the minimum age to apply for a Regular Learner's Permit in Mississippi?",
@@ -620,6 +737,196 @@
                     "Nothing, it's your right to refuse"
                 ],
                 answer: "B"
+            },
+            {
+                question: "Beginning July 1, 2027, what will be required to obtain a driver's license in Mississippi?",
+                options: [
+                    "A high school diploma",
+                    "Proof of insurance",
+                    "Completion of a certified Driver's Education course",
+                    "A doctor's medical clearance"
+                ],
+                answer: "C"
+            },
+            {
+                question: "What is the minimum age to apply for a Regular Driver's License in Mississippi without having held a Learner's Permit for one year?",
+                options: [
+                    "16 years old",
+                    "17 years old",
+                    "18 years old",
+                    "21 years old"
+                ],
+                answer: "B"
+            },
+            {
+                question: "What is considered a 'squatted vehicle' under Mississippi law?",
+                options: [
+                    "A vehicle with tinted windows",
+                    "A vehicle with the front fender raised 4 or more inches higher than the rear fender",
+                    "A vehicle with oversized tires",
+                    "A vehicle without proper mufflers"
+                ],
+                answer: "B"
+            },
+            {
+                question: "What is the recommended following distance at 70 mph according to the Mississippi Driver's Manual?",
+                options: [
+                    "3 car lengths",
+                    "5 car lengths",
+                    "7 car lengths",
+                    "10 car lengths"
+                ],
+                answer: "C"
+            },
+            {
+                question: "Which of the following is NOT one of the required documents when applying for a driver's license in Mississippi?",
+                options: [
+                    "Social security card",
+                    "Certified birth certificate",
+                    "Two proofs of residency",
+                    "High school transcript"
+                ],
+                answer: "D"
+            },
+            {
+                question: "What does a triangular sign indicate?",
+                options: [
+                    "Stop",
+                    "Yield",
+                    "School zone",
+                    "Construction area"
+                ],
+                answer: "B"
+            },
+            {
+                question: "What arm signal indicates a right turn?",
+                options: [
+                    "Left arm straight out",
+                    "Left arm pointed down",
+                    "Left arm pointed up",
+                    "Right arm straight out"
+                ],
+                answer: "C"
+            },
+            {
+                question: "What is the BAC (Blood Alcohol Concentration) limit for drivers under 21 in Mississippi?",
+                options: [
+                    "0.00%",
+                    "0.02%",
+                    "0.05%",
+                    "0.08%"
+                ],
+                answer: "B"
+            },
+            {
+                question: "At a four-way stop, if two vehicles arrive at the same time, who has the right of way?",
+                options: [
+                    "The vehicle on the right",
+                    "The vehicle on the left",
+                    "The larger vehicle",
+                    "The vehicle going straight"
+                ],
+                answer: "A"
+            },
+            {
+                question: "How close to the curb should you park when parallel parking?",
+                options: [
+                    "Within 6 inches",
+                    "Within 12 inches",
+                    "Within 18 inches",
+                    "Within 24 inches"
+                ],
+                answer: "B"
+            },
+            {
+                question: "What distance must your horn be audible from?",
+                options: [
+                    "100 feet",
+                    "200 feet",
+                    "300 feet",
+                    "500 feet"
+                ],
+                answer: "B"
+            },
+            {
+                question: "What should you do if your brakes fail?",
+                options: [
+                    "Pump the brake pedal rapidly",
+                    "Use the parking brake gradually",
+                    "Shift to a lower gear to slow down",
+                    "All of the above"
+                ],
+                answer: "D"
+            },
+            {
+                question: "When is it legal to exceed the posted speed limit in Mississippi?",
+                options: [
+                    "When passing another vehicle",
+                    "When late for an appointment",
+                    "When driving on an interstate highway",
+                    "It is never legal to exceed the posted speed limit"
+                ],
+                answer: "D"
+            },
+            {
+                question: "What does a solid yellow line on your side of the center line mean?",
+                options: [
+                    "Passing is permitted",
+                    "Passing is prohibited",
+                    "You are in a no-parking zone",
+                    "You are approaching a school zone"
+                ],
+                answer: "B"
+            },
+            {
+                question: "What is the minimum bodily injury liability coverage required per person in Mississippi?",
+                options: [
+                    "$15,000",
+                    "$25,000",
+                    "$50,000",
+                    "$100,000"
+                ],
+                answer: "B"
+            },
+            {
+                question: "What is the minimum age to apply for a Class D license in Mississippi?",
+                options: [
+                    "16 years old",
+                    "17 years old",
+                    "18 years old",
+                    "21 years old"
+                ],
+                answer: "C"
+            },
+            {
+                question: "What should you do when approaching a school bus with flashing red lights?",
+                options: [
+                    "Pass slowly and carefully",
+                    "Stop and remain stopped until the red lights are turned off",
+                    "Honk to alert the driver you are passing",
+                    "Slow down to 15 mph and pass"
+                ],
+                answer: "B"
+            },
+            {
+                question: "How far must your headlights be visible from?",
+                options: [
+                    "200 feet",
+                    "300 feet",
+                    "400 feet",
+                    "500 feet"
+                ],
+                answer: "D"
+            },
+            {
+                question: "What does an orange color on traffic signs indicate?",
+                options: [
+                    "Regulatory information",
+                    "Construction or maintenance warning",
+                    "Motorist services",
+                    "School zone"
+                ],
+                answer: "B"
             }
         ];
 
@@ -628,134 +935,134 @@
             {
                 title: "License Requirements",
                 content: `
-                    <p><strong>Minimum Age:</strong> 15 for a Regular Learner's Permit; 16 with 1 year permit or 17 for Class R.</p>
-                    <p><strong>Documents:</strong> Social Security card, certified birth certificate, two proofs of residency; high school diploma not required.</p>
+                    <p><strong>Minimum Age:</strong> 15 for a Regular Learner's Permit; 17 without needing 1 year permit experience.</p>
+                    <p><strong>Documents:</strong> Social Security card, certified birth certificate, two proofs of residency.</p>
                     <p><strong>Learner's Permit Rules:</strong> Must be with a licensed driver 21+.</p>
-                    <p><strong>Sample Question:</strong> What is the minimum age for a learner's permit? (Answer: 15)</p>
+                    <p><strong>New Requirement:</strong> Beginning July 1, 2027, completion of a certified Driver's Education course.</p>
                 `
             },
             {
                 title: "Traffic Signs and Signals",
                 content: `
-                    <p><strong>Shapes:</strong> Octagon = Stop; Diamond = Hazard; Pentagon = School.</p>
-                    <p><strong>Colors:</strong> Red = Stop; Yellow = Warning; Blue = Services.</p>
-                    <p><strong>Sample Question:</strong> What does a red octagonal sign mean? (Answer: Stop)</p>
+                    <p><strong>Shapes:</strong> Octagon = Stop; Diamond = Hazard; Pentagon = School; Triangle = Yield.</p>
+                    <p><strong>Colors:</strong> Red = Stop; Yellow = Warning; Blue = Services; Orange = Construction.</p>
+                    <p><strong>Signal Lights:</strong> Red = Stop; Yellow = Caution; Green = Go; Flashing Red = Stop and proceed when safe; Flashing Yellow = Proceed with caution.</p>
                 `
             },
             {
                 title: "Pavement Markings",
                 content: `
-                    <p><strong>Yellow Lines:</strong> Broken = Pass with caution; Double solid = No passing.</p>
+                    <p><strong>Yellow Lines:</strong> Broken = Pass with caution; Solid = No passing.</p>
                     <p><strong>White Lines:</strong> Solid = Lane change discouraged; Double solid = No crossing.</p>
-                    <p><strong>Sample Question:</strong> What does a broken yellow line indicate? (Answer: Passing allowed with caution)</p>
+                    <p><strong>Directional Arrows:</strong> Indicate required or permitted movements at intersections.</p>
                 `
             },
             {
                 title: "Rules of the Road",
                 content: `
-                    <p><strong>Speed Limits:</strong> 15 mph in school zones; 70 mph on interstates; 50 mph on Natchez Trace.</p>
-                    <p><strong>Right-of-Way:</strong> Yield to emergency vehicles; first vehicle at a four-way stop.</p>
-                    <p><strong>Headlights:</strong> Use when visibility < 500 ft or in adverse weather.</p>
-                    <p><strong>Sample Question:</strong> When must you use headlights? (Answer: All of the above)</p>
-                `
-            },
-            {
-                title: "Safe Driving Practices",
-                content: `
-                    <p><strong>Seat Belts:</strong> Required for driver and front-seat passengers.</p>
-                    <p><strong>Bicycles:</strong> 3 ft passing distance.</p>
-                    <p><strong>Emergency Vehicles:</strong> Pull over to the right and stop.</p>
-                    <p><strong>Sample Question:</strong> What distance must you leave when passing a bicycle? (Answer: 3 ft)</p>
-                `
-            },
-            {
-                title: "Emergencies and Hazards",
-                content: `
-                    <p><strong>Skidding:</strong> Steer in the direction you want to go.</p>
-                    <p><strong>Hydroplaning:</strong> Ease off accelerator, steer straight.</p>
-                    <p><strong>Accelerator Sticks:</strong> Shift to neutral, brake.</p>
-                    <p><strong>Sample Question:</strong> What to do if your vehicle hydroplanes? (Answer: Ease off accelerator and steer straight)</p>
-                `
-            },
-            {
-                title: "DUI and Implied Consent",
-                content: `
-                    <p><strong>First Offense (21+):</strong> $250-$1,000 fine, up to 48 hours jail, 120-day suspension.</p>
-                    <p><strong>Refusal:</strong> 90-day suspension.</p>
-                    <p><strong>Sample Question:</strong> Penalty for first DUI? (Answer: $250-$1,000 fine, up to 48 hours jail)</p>
+                    <p><strong>Speed Limits:</strong> School zones = 15 mph; Interstates = 70 mph.</p>
+                    <p><strong>Following Distance:</strong> At least 7 car lengths at 70 mph.</p>
+                    <p><strong>Right of Way:</strong> Yield to vehicle on right at intersections if arriving simultaneously.</p>
+                    <p><strong>School Buses:</strong> Stop when red lights are flashing.</p>
+                    <p><strong>Sharing the Road:</strong> Leave at least 3 feet when passing bicycles.</p>
                 `
             },
             {
                 title: "Vehicle Requirements",
                 content: `
-                    <p><strong>Insurance:</strong> $25,000 property damage minimum.</p>
-                    <p><strong>Equipment:</strong> Headlights visible 500 ft, working brakes.</p>
-                    <p><strong>Sample Question:</strong> Minimum property damage insurance? (Answer: $25,000)</p>
+                    <p><strong>Equipment:</strong> Functioning headlights, taillights, brakes, horn, and windshield wipers.</p>
+                    <p><strong>Insurance:</strong> Minimum coverage of $25,000/$50,000/$25,000.</p>
+                    <p><strong>Squatted Vehicle Law:</strong> Unlawful to drive with front fender raised 4+ inches higher than rear.</p>
                 `
             },
             {
-                title: "Interstate and Special Situations",
+                title: "Safe Driving Practices",
                 content: `
-                    <p><strong>Merging:</strong> Match traffic speed.</p>
-                    <p><strong>Large Trucks:</strong> Avoid blind spots, passing on right during turns.</p>
-                    <p><strong>Sample Question:</strong> How to merge onto an interstate? (Answer: Speed up to match traffic)</p>
+                    <p><strong>Night Driving:</strong> Use headlights, reduce speed.</p>
+                    <p><strong>Adverse Weather:</strong> Slow down, increase following distance.</p>
+                    <p><strong>Fatigue:</strong> Take breaks every 100 miles, get adequate sleep.</p>
+                    <p><strong>Distracted Driving:</strong> No cell phone use or texting while driving.</p>
                 `
             },
             {
-                title: "How to Study",
+                title: "DUI and Implied Consent",
                 content: `
-                    <p><strong>Read the Manual:</strong> Focus on sections listed in the Contents.</p>
-                    <p><strong>Test Yourself:</strong> Use the 30-question permit test.</p>
-                    <p><strong>Review Key Points:</strong> Use the study guide to memorize facts and rules.</p>
-                    <p><strong>Practice Scenarios:</strong> Imagine driving situations and apply the rules.</p>
+                    <p><strong>BAC Limits:</strong> 21+ = 0.08%; Under 21 = 0.02%.</p>
+                    <p><strong>Implied Consent:</strong> Refusal to take a breath test results in 90-day license suspension.</p>
+                    <p><strong>Penalties:</strong> Fines, jail time, license suspension.</p>
                 `
             }
         ];
 
-        // Function to convert letter answer to index (A=0, B=1, etc.)
-        function answerToIndex(answer) {
-            return answer.charCodeAt(0) - 65;
+        // DOM elements
+        const quizForm = document.getElementById('quiz-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const shuffleBtn = document.getElementById('shuffle-btn');
+        const resultsDiv = document.getElementById('results');
+        const scoreDiv = document.getElementById('score');
+        const reviewDiv = document.getElementById('review');
+        const resetBtn = document.getElementById('reset-btn');
+        const viewStudyGuideBtn = document.getElementById('view-study-guide-btn');
+        const studyGuideDiv = document.getElementById('study-guide');
+        const themeToggle = document.getElementById('theme-toggle');
+        const testTab = document.getElementById('test-tab');
+        const studyTab = document.getElementById('study-tab');
+        const manualTab = document.getElementById('manual-tab');
+        const testSection = document.getElementById('test-section');
+        const manualContainer = document.getElementById('manual-container');
+        const questionCountBtns = document.querySelectorAll('.question-count-btn');
+
+        // Global variables
+        let currentQuestions = [];
+        let questionCount = 30; // Default question count
+
+        // Initialize the app
+        function init() {
+            loadQuestions();
+            setupEventListeners();
+            populateStudyGuide();
         }
 
-        // Function to convert index to letter answer (0=A, 1=B, etc.)
-        function indexToAnswer(index) {
-            return String.fromCharCode(65 + index);
+        // Load questions based on the selected count
+        function loadQuestions() {
+            // Shuffle all questions
+            const shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
+            
+            // Select the required number of questions
+            currentQuestions = shuffledQuestions.slice(0, questionCount);
+            
+            // Render the questions
+            renderQuestions();
         }
 
-        // Fisher-Yates shuffle algorithm
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        // Generate question HTML with shuffled questions
-        function generateQuestions() {
-            const quizForm = document.getElementById("quiz-form");
-            quizForm.innerHTML = ""; // Clear form if regenerating
+        // Render questions to the form
+        function renderQuestions() {
+            quizForm.innerHTML = '';
             
-            // Create a shuffled copy of the questions array
-            const shuffledQuestions = shuffleArray([...questions]);
-            
-            // Store the order of questions for scoring
-            window.questionOrder = shuffledQuestions.map(q => questions.findIndex(originalQ => originalQ.question === q.question));
-            
-            shuffledQuestions.forEach((q, index) => {
-                const questionDiv = document.createElement("div");
-                questionDiv.classList.add("question");
+            currentQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.dataset.index = index;
                 
                 questionDiv.innerHTML = `
-                    <h3>Question ${index + 1}</h3>
-                    <p>${q.question}</p>
+                    <p><strong>Question ${index + 1}:</strong> ${q.question}</p>
                     <div class="options">
-                        ${q.options.map((option, i) => `
-                            <label>
-                                <input type="radio" name="q${index}" value="${indexToAnswer(i)}">
-                                ${indexToAnswer(i)}. ${option}
-                            </label>
-                        `).join('')}
+                        <label>
+                            <input type="radio" name="q${index}" value="A" required>
+                            A. ${q.options[0]}
+                        </label>
+                        <label>
+                            <input type="radio" name="q${index}" value="B" required>
+                            B. ${q.options[1]}
+                        </label>
+                        <label>
+                            <input type="radio" name="q${index}" value="C" required>
+                            C. ${q.options[2]}
+                        </label>
+                        <label>
+                            <input type="radio" name="q${index}" value="D" required>
+                            D. ${q.options[3]}
+                        </label>
                     </div>
                 `;
                 
@@ -763,126 +1070,183 @@
             });
         }
 
-        // Generate study guide HTML
-        function generateStudyGuide() {
-            const studyGuideDiv = document.getElementById("study-guide");
-            studyGuideDiv.innerHTML = ""; // Clear if regenerating
-            
-            studyGuide.forEach(section => {
-                const sectionDiv = document.createElement("div");
-                sectionDiv.classList.add("study-section");
-                
-                sectionDiv.innerHTML = `
-                    <h3>${section.title}</h3>
-                    ${section.content}
-                `;
-                
-                studyGuideDiv.appendChild(sectionDiv);
-            });
+        // Shuffle the current questions
+        function shuffleQuestions() {
+            currentQuestions = [...currentQuestions].sort(() => Math.random() - 0.5);
+            renderQuestions();
         }
 
-        // Calculate results
-        function calculateResults() {
-            const results = [];
-            let score = 0;
+        // Submit the test and show results
+        function submitTest() {
+            // Check if all questions are answered
+            const unansweredQuestions = [];
+            currentQuestions.forEach((q, index) => {
+                const answered = document.querySelector(`input[name="q${index}"]:checked`);
+                if (!answered) {
+                    unansweredQuestions.push(index + 1);
+                }
+            });
             
-            window.questionOrder.forEach((originalIndex, shuffledIndex) => {
-                const selectedOption = document.querySelector(`input[name="q${shuffledIndex}"]:checked`);
-                const userAnswer = selectedOption ? selectedOption.value : null;
-                const correctAnswer = questions[originalIndex].answer;
-                const isCorrect = userAnswer === correctAnswer;
+            if (unansweredQuestions.length > 0) {
+                alert(`Please answer all questions. Missing: ${unansweredQuestions.join(', ')}`);
+                return;
+            }
+            
+            // Calculate score
+            let correctCount = 0;
+            const reviewHtml = [];
+            
+            currentQuestions.forEach((q, index) => {
+                const selectedAnswer = document.querySelector(`input[name="q${index}"]:checked`).value;
+                const isCorrect = selectedAnswer === q.answer;
                 
                 if (isCorrect) {
-                    score++;
+                    correctCount++;
                 }
                 
-                results.push({
-                    question: questions[originalIndex].question,
-                    userAnswer,
-                    correctAnswer,
-                    isCorrect,
-                    options: questions[originalIndex].options
-                });
+                // Add to review
+                reviewHtml.push(`
+                    <div class="review-question ${isCorrect ? 'correct' : 'incorrect'}">
+                        <p><strong>Question ${index + 1}:</strong> ${q.question}</p>
+                        <p>${isCorrect ? 
+                            `<span class="correct-answer">✓ Correct: ${getAnswerText(q.answer, q.options)}</span>` : 
+                            `<span class="wrong-answer">✗ Your answer: ${getAnswerText(selectedAnswer, q.options)}</span><br>
+                            <span class="correct-answer">Correct answer: ${getAnswerText(q.answer, q.options)}</span>`
+                        }</p>
+                    </div>
+                `);
             });
             
-            return {
-                score,
-                total: questions.length,
-                results
-            };
-        }
-
-        // Display results
-        function displayResults(resultsData) {
-            const resultsDiv = document.getElementById("results");
-            const scoreDiv = document.getElementById("score");
-            const reviewDiv = document.getElementById("review");
+            // Display results
+            const passThreshold = Math.ceil(currentQuestions.length * 0.7); // 70% to pass
+            const passed = correctCount >= passThreshold;
             
-            scoreDiv.textContent = `You scored ${resultsData.score} out of ${resultsData.total} (${Math.round((resultsData.score / resultsData.total) * 100)}%)`;
+            scoreDiv.innerHTML = `
+                <p>You scored ${correctCount} out of ${currentQuestions.length} (${Math.round(correctCount / currentQuestions.length * 100)}%)</p>
+                <p>${passed ? 
+                    '<span style="color:var(--correct-color)">PASSED! 🎉</span>' : 
+                    '<span style="color:var(--incorrect-color)">FAILED. Need to score at least 70% to pass.</span>'
+                }</p>
+            `;
             
-            reviewDiv.innerHTML = "";
+            reviewDiv.innerHTML = reviewHtml.join('');
             
-            resultsData.results.forEach((result, index) => {
-                const reviewQuestionDiv = document.createElement("div");
-                reviewQuestionDiv.classList.add("review-question");
-                reviewQuestionDiv.classList.add(result.isCorrect ? "correct" : "incorrect");
-                
-                const questionText = `<p><strong>Question ${index + 1}:</strong> ${result.question}</p>`;
-                
-                let answerText = "";
-                
-                if (result.userAnswer) {
-                    const userAnswerIndex = answerToIndex(result.userAnswer);
-                    const correctAnswerIndex = answerToIndex(result.correctAnswer);
-                    
-                    if (result.isCorrect) {
-                        answerText = `<p>Your answer: <span class="correct-answer">${result.userAnswer}. ${result.options[userAnswerIndex]}</span> ✓</p>`;
-                    } else {
-                        answerText = `
-                            <p>Your answer: <span class="wrong-answer">${result.userAnswer}. ${result.options[userAnswerIndex]}</span> ✗</p>
-                            <p>Correct answer: <span class="correct-answer">${result.correctAnswer}. ${result.options[correctAnswerIndex]}</span></p>
-                        `;
-                    }
-                } else {
-                    const correctAnswerIndex = answerToIndex(result.correctAnswer);
-                    answerText = `
-                        <p>You didn't answer this question.</p>
-                        <p>Correct answer: <span class="correct-answer">${result.correctAnswer}. ${result.options[correctAnswerIndex]}</span></p>
-                    `;
-                }
-                
-                reviewQuestionDiv.innerHTML = questionText + answerText;
-                reviewDiv.appendChild(reviewQuestionDiv);
-            });
-            
-            resultsDiv.style.display = "block";
+            // Show results section
+            resultsDiv.style.display = 'block';
             
             // Scroll to results
-            resultsDiv.scrollIntoView({ behavior: "smooth" });
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Reset quiz
-        function resetQuiz() {
-            document.getElementById("results").style.display = "none";
-            document.getElementById("study-guide").style.display = "none";
-            
-            // Generate new shuffled questions
-            generateQuestions();
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: "smooth" });
+        // Get option text from letter (A, B, C, D)
+        function getAnswerText(letter, options) {
+            const index = letter.charCodeAt(0) - 65; // Convert A, B, C, D to 0, 1, 2, 3
+            return `${letter}. ${options[index]}`;
         }
 
-        // Toggle study guide
-        function toggleStudyGuide() {
-            const studyGuideDiv = document.getElementById("study-guide");
-            if (studyGuideDiv.style.display === "block") {
-                studyGuideDiv.style.display = "none";
-            } else {
-                studyGuideDiv.style.display = "block";
-                studyGuideDiv.scrollIntoView({ behavior: "smooth" });
+        // Reset the test
+        function resetTest() {
+            quizForm.reset();
+            resultsDiv.style.display = 'none';
+            loadQuestions();
+            window.scrollTo(0, 0);
+        }
+
+        // Show the study guide
+        function viewStudyGuide() {
+            testSection.style.display = 'none';
+            studyGuideDiv.style.display = 'block';
+            manualContainer.style.display = 'none';
+            
+            // Update active tab
+            testTab.classList.remove('active');
+            studyTab.classList.add('active');
+            manualTab.classList.remove('active');
+        }
+
+        // Populate the study guide with content
+        function populateStudyGuide() {
+            let html = '<h2>Mississippi Driver\'s License Study Guide (2025)</h2>';
+            
+            studyGuide.forEach(section => {
+                html += `
+                    <div class="study-section">
+                        <h3>${section.title}</h3>
+                        ${section.content}
+                    </div>
+                `;
+            });
+            
+            studyGuideDiv.innerHTML = html;
+        }
+
+        // Change the theme
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        // Show the test tab
+        function showTestTab() {
+            testSection.style.display = 'block';
+            studyGuideDiv.style.display = 'none';
+            manualContainer.style.display = 'none';
+            
+            // Update active tab
+            testTab.classList.add('active');
+            studyTab.classList.remove('active');
+            manualTab.classList.remove('active');
+        }
+
+        // Show the manual tab
+        function showManualTab() {
+            testSection.style.display = 'none';
+            studyGuideDiv.style.display = 'none';
+            manualContainer.style.display = 'block';
+            
+            // Update active tab
+            testTab.classList.remove('active');
+            studyTab.classList.remove('active');
+            manualTab.classList.add('active');
+        }
+
+        // Update question count
+        function updateQuestionCount(count) {
+            questionCount = parseInt(count);
+            
+            // Update active button
+            questionCountBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.count == count);
+            });
+            
+            // Reload questions
+            resetTest();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            submitBtn.addEventListener('click', submitTest);
+            shuffleBtn.addEventListener('click', shuffleQuestions);
+            resetBtn.addEventListener('click', resetTest);
+            viewStudyGuideBtn.addEventListener('click', viewStudyGuide);
+            themeToggle.addEventListener('click', toggleTheme);
+            testTab.addEventListener('click', showTestTab);
+            studyTab.addEventListener('click', viewStudyGuide);
+            manualTab.addEventListener('click', showManualTab);
+            
+            // Question count buttons
+            questionCountBtns.forEach(btn => {
+                btn.addEventListener('click', () => updateQuestionCount(btn.dataset.count));
+            });
+            
+            // Load saved theme preference
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
             }
         }
 
-        // Toggle dark mode
-        function toggleDarkMode() {
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
