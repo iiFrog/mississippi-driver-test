@@ -222,6 +222,7 @@
         <button class="theme-toggle-button" id="theme-toggle">Toggle Theme</button>
     </div>
 
+
     <div class="container">
 
         <div id="main-menu" class="main-menu">
@@ -257,6 +258,7 @@
                  <div class="test-main-area">
                      <div class="progress-container">
                          <div class="progress-indicator" id="progress">Question 1 / X</div>
+                         <div class="percentage-indicator" id="percentage">(0% Correct)</div>
                      </div>
                      <div id="question-area">
                           <div class="question-container">
@@ -303,6 +305,7 @@
         const resultsView = document.getElementById('results-view');
         const studyGuideContent = document.getElementById('study-guide-content');
         const progressIndicator = document.getElementById('progress');
+        const percentageIndicator = document.getElementById('percentage');
         const questionText = document.getElementById('question-text');
         const optionsList = document.getElementById('options-list');
         const feedbackMessage = document.getElementById('feedback-message');
@@ -422,6 +425,8 @@
             liveScoreValue.textContent = score;
             liveScoreTotal.textContent = quizQuestions.length;
             liveScoreValue.className = 'score-value low-score';
+            percentageIndicator.textContent = `(0% Correct)`;
+            percentageIndicator.className = 'percentage-indicator low-score';
             switchView('test-view');
             displayQuestion();
             nextQuestionBtn.classList.add('hidden');
@@ -430,10 +435,16 @@
         }
 
         function displayQuestion() {
-            if SafeguardTimeout) { clearTimeout(autoAdvanceTimeout); autoAdvanceTimeout = null; }
+            if (autoAdvanceTimeout) { clearTimeout(autoAdvanceTimeout); autoAdvanceTimeout = null; }
             if (currentQuestionIndex >= quizQuestions.length) { showResults(); return; }
             const question = quizQuestions[currentQuestionIndex];
             progressIndicator.textContent = `Question ${currentQuestionIndex + 1} / ${quizQuestions.length}`;
+             const questionsAttemptedSoFar = currentQuestionIndex;
+             let currentPercentage = 0;
+             if (questionsAttemptedSoFar > 0) { currentPercentage = Math.round((score / questionsAttemptedSoFar) * 100); }
+             percentageIndicator.textContent = `(${currentPercentage}% Correct)`;
+             if (currentPercentage < 50) { percentageIndicator.className = 'percentage-indicator low-score'; }
+             else { percentageIndicator.className = 'percentage-indicator high-score'; }
             questionText.textContent = question.question;
             optionsList.innerHTML = '';
             feedbackMessage.textContent = '';
@@ -476,6 +487,10 @@
             const scorePercentage = (score / quizQuestions.length) * 100;
             if (scorePercentage < 50) { liveScoreValue.className = 'score-value low-score'; }
             else { liveScoreValue.className = 'score-value high-score'; }
+             const currentPercentage = Math.round((score / (currentQuestionIndex + 1)) * 100);
+             percentageIndicator.textContent = `(${currentPercentage}% Correct)`;
+             if (currentPercentage < 50) { percentageIndicator.className = 'percentage-indicator low-score'; }
+             else { percentageIndicator.className = 'percentage-indicator high-score'; }
             const isLastQuestion = currentQuestionIndex >= quizQuestions.length - 1;
             const nextAction = isLastQuestion ? showResults : nextQuestion;
             if (autoAdvanceDelay === 'none') {
